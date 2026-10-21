@@ -1,0 +1,1017 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Ma formation No-Code</title><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Formation">
+<meta name="theme-color" content="#1f5f4a"><meta name="color-scheme" content="light dark">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}[hidden]{display:none!important}</style>
+<style>
+/* Mise en page : barre latérale sur ordinateur, barre d'onglets en bas sur téléphone.
+   Couleurs : bitume bleuté, bleu panneau routier, ambre pour « à revoir ». */
+:root {
+  --bg: #f1f4f7;
+  --surface: #ffffff;
+  --surface-2: #e8edf2;
+  --ink: #13202c;
+  --muted: #566878;
+  --line: #d5dde5;
+  --accent: #1c5dcf;
+  --accent-ink: #ffffff;
+  --accent-soft: #dde8fb;
+  --ok: #1b7a4b;
+  --ok-soft: #dff3e8;
+  --warn: #8a5a00;
+  --warn-soft: #fcefcd;
+  --road: #2b3947;
+  --road-line: #f2c14e;
+  --shadow: 0 1px 2px rgba(19, 32, 44, .06), 0 4px 14px rgba(19, 32, 44, .05);
+  --font-body: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-head: "Avenir Next", Avenir, "Trebuchet MS", system-ui, -apple-system, sans-serif;
+  --radius: 14px;
+  --nav-h: 64px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0e151c; --surface: #17212b; --surface-2: #202c38; --ink: #e8eef3; --muted: #9db0bf;
+    --line: #2a3845; --accent: #7aaaff; --accent-ink: #0a1830; --accent-soft: #1e3150;
+    --ok: #62d097; --ok-soft: #173326; --warn: #f0bd59; --warn-soft: #3a2d10;
+    --road: #0a1016; --road-line: #f2c14e; --shadow: none; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0e151c; --surface: #17212b; --surface-2: #202c38; --ink: #e8eef3; --muted: #9db0bf;
+  --line: #2a3845; --accent: #7aaaff; --accent-ink: #0a1830; --accent-soft: #1e3150;
+  --ok: #62d097; --ok-soft: #173326; --warn: #f0bd59; --warn-soft: #3a2d10;
+  --road: #0a1016; --road-line: #f2c14e; --shadow: none; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 16px; line-height: 1.55;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 0 calc(var(--nav-h) + 24px + env(safe-area-inset-bottom, 0px));
+  -webkit-text-size-adjust: 100%;
+}
+h1, h2, h3 { font-family: var(--font-head); line-height: 1.2; margin: 0; text-wrap: balance; }
+h1 { font-size: 1.7rem; letter-spacing: -.01em; }
+h2 { font-size: 1.2rem; }
+h3 { font-size: 1rem; }
+p { margin: 0; }
+a { color: var(--accent); }
+button, input, select, textarea { font: inherit; color: inherit; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+.app { max-width: 880px; margin: 0 auto; min-width: 0; }
+.topbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 0 6px; }
+.brand { font-family: var(--font-head); font-weight: 800; font-size: 1.05rem; letter-spacing: -.01em; }
+.brand small { display: block; font-weight: 500; color: var(--muted); font-size: .78rem; font-family: var(--font-body); }
+main { display: grid; gap: 16px; padding-top: 10px; min-width: 0; }
+.view-head { display: grid; gap: 4px; padding: 8px 0 4px; }
+.view-head p { color: var(--muted); }
+
+/* navigation */
+.nav { position: fixed; left: 0; right: 0; bottom: 0; z-index: 20; background: var(--surface); border-top: 1px solid var(--line);
+  display: flex; justify-content: space-around; padding: 6px max(8px, env(safe-area-inset-left, 0px)) calc(6px + env(safe-area-inset-bottom, 0px)) max(8px, env(safe-area-inset-right, 0px)); }
+.nav button { flex: 1; min-width: 0; display: grid; justify-items: center; gap: 2px; padding: 6px 2px; background: none; border: 0; color: var(--muted); cursor: pointer; font-size: .72rem; border-radius: 10px; }
+.nav button svg { width: 24px; height: 24px; }
+.nav button[aria-current="page"] { color: var(--accent); font-weight: 700; }
+.nav button[aria-current="page"] svg { stroke-width: 2.4; }
+@media (min-width: 900px) {
+  body { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-bottom: 48px; }
+  .app { max-width: 1100px; display: grid; grid-template-columns: 210px minmax(0, 1fr); column-gap: 28px; align-items: start; }
+  .topbar { grid-column: 1 / -1; }
+  .nav { position: sticky; top: 16px; grid-column: 1; grid-row: 2; flex-direction: column; justify-content: flex-start; gap: 4px; background: none; border: 0; padding: 0; }
+  .nav button { grid-template-columns: 24px 1fr; justify-items: start; align-items: center; gap: 12px; font-size: .95rem; padding: 10px 12px; text-align: left; }
+  .nav button[aria-current="page"] { background: var(--accent-soft); }
+  main { grid-column: 2; grid-row: 2; }
+}
+
+/* composants */
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px; box-shadow: var(--shadow); min-width: 0; display: grid; gap: 12px; }
+.card.flat { box-shadow: none; }
+.row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; min-width: 0; }
+.row.between { justify-content: space-between; }
+.muted { color: var(--muted); }
+.small { font-size: .88rem; }
+.grid2 { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: 1px solid var(--line); background: var(--surface); padding: 10px 16px; border-radius: 12px; cursor: pointer; font-weight: 600; min-height: 44px; }
+.btn:hover { background: var(--surface-2); }
+.btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.btn.primary:hover { filter: brightness(1.06); background: var(--accent); }
+.btn.big { font-size: 1.1rem; padding: 14px 22px; min-height: 52px; }
+.btn.ghost { background: none; border-color: transparent; color: var(--accent); }
+.btn.danger { color: #b3261e; }
+:root[data-theme="dark"] .btn.danger { color: #ff8f86; }
+.pill { display: inline-flex; align-items: center; gap: 6px; padding: 2px 10px; border-radius: 99px; font-size: .78rem; font-weight: 700; background: var(--surface-2); color: var(--muted); white-space: nowrap; }
+.pill.cours { background: var(--accent-soft); color: var(--accent); }
+.pill.fini { background: var(--ok-soft); color: var(--ok); }
+.pill.revoir { background: var(--warn-soft); color: var(--warn); }
+.pill.prep { background: transparent; border: 1px dashed var(--line); }
+label { font-weight: 600; font-size: .92rem; }
+input[type="text"], input[type="number"], input[type="date"], input[type="url"], select, textarea {
+  width: 100%; background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; min-height: 44px; }
+textarea { min-height: 110px; resize: vertical; line-height: 1.5; }
+.field { display: grid; gap: 6px; min-width: 0; }
+.form { display: grid; gap: 12px; }
+
+/* route : barre d'avancement façon marquage au sol */
+.road { position: relative; height: 18px; border-radius: 9px; background: var(--road); overflow: hidden; }
+.road::before { content: ""; position: absolute; left: 8px; right: 8px; top: 50%; height: 0; border-top: 2px dashed rgba(255,255,255,.28); transform: translateY(-1px); }
+.road > i { position: absolute; left: 0; top: 0; bottom: 0; background: var(--accent); border-radius: 9px; min-width: 0; }
+.road > i::after { content: ""; position: absolute; left: 8px; right: 8px; top: 50%; border-top: 2px dashed var(--road-line); transform: translateY(-1px); }
+.big-num { font-family: var(--font-head); font-weight: 800; font-size: 2.2rem; line-height: 1; font-variant-numeric: tabular-nums; }
+
+/* tableau de bord */
+.hero { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 22px; display: grid; gap: 14px; box-shadow: var(--shadow); }
+.hero h1 { font-size: 1.5rem; }
+.next { display: grid; gap: 4px; padding: 12px 14px; border-radius: 12px; background: var(--accent-soft); }
+.next b { color: var(--accent); }
+.welcome { border: 1px dashed var(--line); border-radius: var(--radius); padding: 14px 16px; background: var(--surface); display: grid; gap: 8px; }
+
+/* listes */
+.list { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.item { display: flex; gap: 12px; align-items: center; justify-content: space-between; padding: 12px 14px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); min-width: 0; }
+.item .t { min-width: 0; display: grid; gap: 2px; }
+.item .t b { overflow-wrap: anywhere; }
+.item.cur { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent) inset; }
+.week-head { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; padding-top: 8px; }
+details.module { border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
+details.module > summary { list-style: none; cursor: pointer; padding: 16px 18px; display: grid; gap: 6px; }
+details.module > summary::-webkit-details-marker { display: none; }
+details.module[open] > summary { border-bottom: 1px solid var(--line); }
+.module-body { padding: 14px 18px 18px; display: grid; gap: 10px; }
+.tabs { display: flex; gap: 6px; flex-wrap: wrap; }
+.tab { padding: 8px 14px; border-radius: 99px; border: 1px solid var(--line); background: var(--surface); cursor: pointer; font-weight: 600; min-height: 40px; }
+.tab[aria-selected="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+
+/* séance */
+.check { display: flex; gap: 12px; align-items: flex-start; padding: 10px 0; border-bottom: 1px solid var(--line); }
+.check:last-child { border-bottom: 0; }
+.check input { width: 22px; height: 22px; margin-top: 2px; flex: none; accent-color: var(--accent); }
+.check.done span { color: var(--muted); text-decoration: line-through; }
+.course h3 { margin-top: 6px; }
+.course p { max-width: 68ch; }
+.promptbox { background: var(--bg); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; font-size: .93rem; white-space: pre-wrap; overflow-wrap: anywhere; }
+details.qa { border: 1px solid var(--line); border-radius: 12px; padding: 10px 14px; background: var(--bg); }
+details.qa summary { cursor: pointer; font-weight: 600; }
+details.qa p { margin-top: 8px; color: var(--muted); }
+.choices { display: grid; gap: 8px; }
+.choice { display: flex; gap: 10px; align-items: center; padding: 12px 14px; border: 1px solid var(--line); border-radius: 12px; cursor: pointer; background: var(--surface); min-height: 48px; }
+.choice input { accent-color: var(--accent); width: 20px; height: 20px; }
+.back { align-self: start; }
+.mastery { display: flex; gap: 4px; flex-wrap: wrap; }
+.mastery button { padding: 6px 12px; border-radius: 99px; border: 1px solid var(--line); background: var(--surface); cursor: pointer; font-size: .85rem; min-height: 36px; }
+.mastery button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); font-weight: 700; }
+pre.json { margin: 0; max-height: 220px; overflow: auto; background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 10px; font-size: .78rem; white-space: pre-wrap; overflow-wrap: anywhere; }
+.toast { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(var(--nav-h) + 20px + env(safe-area-inset-bottom, 0px)); background: var(--ink); color: var(--bg); padding: 10px 18px; border-radius: 99px; z-index: 40; font-weight: 600; max-width: calc(100% - 32px); text-align: center; }
+.banner { padding: 10px 14px; border-radius: 12px; background: var(--warn-soft); color: var(--warn); font-weight: 600; }
+.timer { font-family: var(--font-head); font-size: 1.8rem; font-weight: 800; font-variant-numeric: tabular-nums; }
+.scroll-x { overflow-x: auto; }
+@media (prefers-reduced-motion: no-preference) {
+  .road > i { transition: width .5s ease; }
+}
+
+</style></head><body>
+<div class="app">
+  <header class="topbar">
+    <div class="brand">Ma formation No-Code<small>Product Builder · intégration IA</small></div>
+    <button class="btn ghost" id="theme-btn" type="button" aria-label="Changer de thème">Thème</button>
+  </header>
+  <nav class="nav" id="nav" aria-label="Navigation principale"></nav>
+  <main id="view" tabindex="-1"></main>
+</div>
+
+<script>
+/* Programme de formation : contenu par défaut.
+   Tout ce qui est ici peut être modifié sans toucher à ta progression :
+   la progression est rangée par identifiant de séance (ex. "m1w1a"). */
+const PROGRAM = {
+  contentVersion: 1,
+  verifiedOn: "21 octobre 2026",
+  referentiel: {
+    code: "RNCP42191",
+    titre: "Product builder no code",
+    niveau: "Niveau 6",
+    certificateur: "Le Wagon",
+    url: "https://www.francecompetences.fr/recherche/rncp/42191/"
+  },
+  blocks: {
+    BC01: "Analyse des besoins et cadrage stratégique du projet No-Code",
+    BC02: "Conception de l'expérience utilisateur et de l'architecture No-Code",
+    BC03: "Développement, automatisation et sécurisation de la solution No-Code",
+    BC04: "Pilotage, déploiement et pérennisation de la solution No-Code"
+  },
+  modules: [
+    { id: "m1", month: 1, block: "BC01", title: "Cadrer le besoin", summary: "Comprendre un processus, recueillir et prioriser des besoins, écrire un dossier de cadrage." },
+    { id: "m2", month: 2, block: "BC02", title: "Concevoir parcours, maquettes et données", summary: "Parcours utilisateurs, maquettes, test utilisateur, modèle de données." },
+    { id: "m3", month: 3, block: "BC03", title: "Construire l'application v1", summary: "Interfaces, mobile et accessibilité, règles métier, rôles." },
+    { id: "m4", month: 4, block: "BC03", title: "Automatiser et intégrer l'IA", summary: "Deux automatisations, API, une fonction IA vérifiée." },
+    { id: "m5", month: 5, block: "BC03 · BC04", title: "Sécuriser, tester, déployer", summary: "Sécurité, RGPD, tests de recette, mise en ligne." },
+    { id: "m6", month: 6, block: "BC04", title: "Documenter, conseiller, présenter", summary: "Documentation, kit de déploiement, proposition commerciale, portfolio final." }
+  ],
+  weeks: [
+    { n: 1, m: "m1", title: "Cartographier le processus actuel", goal: "Dessiner la carte du processus de suivi des documents et en tirer 3 irritants." },
+    { n: 2, m: "m1", title: "Recueillir et prioriser les besoins", goal: "Mener un entretien fictif et classer 12 besoins." },
+    { n: 3, m: "m1", title: "Cadrer le MVP", goal: "Écrire la version 0 du dossier de cadrage." },
+    { n: 4, m: "m1", title: "Consolidation et bilan du mois 1", goal: "Refaire la démarche seul sur un nouveau cas." },
+    { n: 5, m: "m2", title: "Parcours utilisateurs", goal: "Décrire les parcours du conducteur et de l'exploitant." },
+    { n: 6, m: "m2", title: "Maquettes et test utilisateur", goal: "Dessiner les écrans et préparer un protocole de test." },
+    { n: 7, m: "m2", title: "Modèle de données", goal: "Définir les entités, attributs et relations." },
+    { n: 8, m: "m2", title: "Consolidation et bilan du mois 2", goal: "Architecture des données, sécurité du stockage, éco-conception." },
+    { n: 9, m: "m3", title: "Interfaces dans l'outil no-code", goal: "Construire les écrans principaux." },
+    { n: 10, m: "m3", title: "Mobile et accessibilité", goal: "Rendre l'application utilisable sur téléphone et accessible." },
+    { n: 11, m: "m3", title: "Règles métier et rôles", goal: "Calculs d'échéances, validations, droits par rôle." },
+    { n: 12, m: "m3", title: "Consolidation et application v1", goal: "Application v1 et décision Softr / Supabase." },
+    { n: 13, m: "m4", title: "Première automatisation", goal: "Rappels d'échéances automatiques." },
+    { n: 14, m: "m4", title: "API et formats de données", goal: "Lire une requête d'API et un fichier JSON." },
+    { n: 15, m: "m4", title: "Deuxième automatisation et IA", goal: "Une fonction IA dont les résultats sont vérifiés." },
+    { n: 16, m: "m4", title: "Consolidation et bilan du mois 4", goal: "Tester, corriger et documenter les automatisations." },
+    { n: 17, m: "m5", title: "Sécurité et droits d'accès", goal: "Rôles, sauvegardes, journalisation." },
+    { n: 18, m: "m5", title: "Protection des données et RGPD", goal: "Fiche RGPD du projet." },
+    { n: 19, m: "m5", title: "Tests et recette", goal: "Scénarios de test et recette utilisateur." },
+    { n: 20, m: "m5", title: "Déploiement et bilan du mois 5", goal: "Application déployée." },
+    { n: 21, m: "m6", title: "Documentation utilisateur", goal: "Guide pour les utilisateurs finaux." },
+    { n: 22, m: "m6", title: "Kit de déploiement et maintenance", goal: "Procédures de support et d'évolution." },
+    { n: 23, m: "m6", title: "Conseil : audit, estimation, proposition", goal: "Chiffrer et proposer une prestation." },
+    { n: 24, m: "m6", title: "Présentation client et portfolio final", goal: "Présenter le projet et finaliser le portfolio." },
+    { n: 25, m: "m6", title: "Réserve", goal: "Semaine libre pour rattraper ou approfondir." },
+    { n: 26, m: "m6", title: "Réserve", goal: "Semaine libre pour rattraper ou approfondir." }
+  ],
+  competences: [
+    { id: "c01", b: "BC01", t: "Analyser les processus métiers existants (cartographie, diagnostic) pour repérer ce qu'un outil no-code peut améliorer." },
+    { id: "c02", b: "BC01", t: "Recueillir les besoins des parties prenantes et hiérarchiser attentes et contraintes." },
+    { id: "c03", b: "BC01", t: "Auditer l'environnement technique et réglementaire : cartographier données et flux." },
+    { id: "c04", b: "BC01", t: "Sélectionner les plateformes no-code adaptées (fonctions, sécurité, souveraineté des données, coût)." },
+    { id: "c05", b: "BC01", t: "Élaborer la stratégie produit : MVP, feuille de route, priorités." },
+    { id: "c06", b: "BC01", t: "Formaliser le dossier de cadrage (périmètre, ressources, indicateurs de succès)." },
+    { id: "c07", b: "BC02", t: "Concevoir les parcours utilisateurs avec ergonomie et conception universelle." },
+    { id: "c08", b: "BC02", t: "Élaborer un protocole de tests utilisateurs sur maquettes et analyser les retours." },
+    { id: "c09", b: "BC02", t: "Modéliser l'architecture de données : entités, attributs, relations." },
+    { id: "c10", b: "BC02", t: "Définir l'architecture technique des données : stockage, sauvegarde, sécurité, souveraineté." },
+    { id: "c11", b: "BC02", t: "Intégrer l'éco-conception numérique (ressources, volumes de données, hébergement)." },
+    { id: "c12", b: "BC03", t: "Construire les interfaces utilisateur avec les composants de l'outil no-code." },
+    { id: "c13", b: "BC03", t: "Configurer la responsivité (mobile, tablette, ordinateur) et l'accessibilité." },
+    { id: "c14", b: "BC03", t: "Implémenter les règles de gestion et logiques métier (calculs, conditions, validations)." },
+    { id: "c15", b: "BC03", t: "Concevoir et orchestrer des workflows d'automatisation (déclencheurs, conditions, boucles)." },
+    { id: "c16", b: "BC03", t: "Intégrer des fonctions avancées (traitement de données, IA générative) dans les automatisations." },
+    { id: "c17", b: "BC03", t: "Configurer des connexions API avec des services tiers (authentification, appels)." },
+    { id: "c18", b: "BC03", t: "Transformer et faire correspondre les flux de données entrants et sortants." },
+    { id: "c19", b: "BC03", t: "Paramétrer la gestion des accès : rôles, groupes, permissions." },
+    { id: "c20", b: "BC03", t: "Mettre en œuvre des mesures de sécurité : chiffrement, sauvegardes, journalisation." },
+    { id: "c21", b: "BC04", t: "Piloter la réalisation du projet de façon itérative, avec planification et priorisation." },
+    { id: "c22", b: "BC04", t: "Coordonner l'équipe et les parties prenantes (comptes rendus de points d'étape)." },
+    { id: "c23", b: "BC04", t: "Organiser son activité en prévenant les risques santé et sécurité, notamment la charge de travail." },
+    { id: "c24", b: "BC04", t: "Élaborer les phases de tests et de recette à partir de scénarios d'usage." },
+    { id: "c25", b: "BC04", t: "Déployer la solution en production." },
+    { id: "c26", b: "BC04", t: "Organiser la maintenance corrective et le support utilisateur de premier niveau." },
+    { id: "c27", b: "BC04", t: "Concevoir l'accompagnement au changement : documentation, guides, formation." },
+    { id: "c28", b: "BC04", t: "Piloter l'amélioration continue à partir des données d'usage et des retours." },
+    { id: "c29", b: "BC04", t: "Mettre en place une veille technologique et fonctionnelle sur le no-code." }
+  ],
+  deliverables: [
+    { id: "d1", m: "m1", t: "Carte du processus actuel", d: "Logigramme + fiche d'une page (qui fait quoi, avec quels documents).", c: ["c01"] },
+    { id: "d2", m: "m1", t: "Compte rendu d'entretien et 12 besoins priorisés", d: "Entretien fictif + tableau MoSCoW.", c: ["c02"] },
+    { id: "d3", m: "m1", t: "Dossier de cadrage v0", d: "Périmètre du MVP, hors périmètre, indicateurs, risques, planning.", c: ["c05", "c06", "c03"] },
+    { id: "d4", m: "m1", t: "Portfolio v1 et auto-évaluation BC01", d: "Livrables du mois 1 mis au propre.", c: ["c01", "c02", "c05", "c06"] },
+    { id: "d5", m: "m2", t: "Maquettes, schéma de données, protocole de test", d: "Écrans de suivi des documents et échéances, modèle de données conducteur / document / échéance.", c: ["c07", "c08", "c09", "c10", "c11"] },
+    { id: "d6", m: "m3", t: "Application v1 (données fictives)", d: "Utilisable sur ordinateur et mobile, avec rôles.", c: ["c12", "c13", "c14", "c19", "c04"] },
+    { id: "d7", m: "m4", t: "Automatisation 1 : rappels d'échéances", d: "Scénario automatique documenté.", c: ["c15", "c17", "c18"] },
+    { id: "d8", m: "m4", t: "Automatisation 2 et fonction IA vérifiée", d: "Deuxième scénario + une fonction IA avec contrôle des résultats.", c: ["c15", "c16", "c17"] },
+    { id: "d9", m: "m5", t: "Plan de tests et fiche RGPD", d: "Scénarios de recette, finalités, durées de conservation.", c: ["c24", "c20", "c03"] },
+    { id: "d10", m: "m5", t: "Application déployée", d: "Accessible par lien, avec sauvegardes.", c: ["c25", "c20"] },
+    { id: "d11", m: "m6", t: "Documentation utilisateur", d: "Guide pas à pas pour un conducteur et un exploitant.", c: ["c27"] },
+    { id: "d12", m: "m6", t: "Kit de déploiement et de maintenance", d: "Support de premier niveau, procédures, veille.", c: ["c26", "c28", "c29", "c25"] },
+    { id: "d13", m: "m6", t: "Présentation client et proposition commerciale", d: "Audit, estimation des coûts, offre d'accompagnement.", c: ["c21", "c22"] },
+    { id: "d14", m: "m6", t: "Dossier de cadrage final et portfolio", d: "Tous les livrables, avec les compétences démontrées.", c: ["c06", "c23"] }
+  ],
+  filRouge: [
+    { m: "m1", t: "Cadrer l'outil de suivi", x: "Entreprise fictive « Transports Lemoine Froid ». Tu cartographies le suivi des documents et des échéances de 3 conducteurs, tu priorises les besoins et tu définis un MVP." },
+    { m: "m2", t: "Concevoir les écrans et les données", x: "Écrans du suivi, parcours conducteur et exploitant, modèle de données conducteur / document / échéance." },
+    { m: "m3", t: "Construire la version 1", x: "Application utilisable sur ordinateur et mobile, données fictives, deux rôles. Décision sur la base de données à la fin du mois." },
+    { m: "m4", t: "Automatiser et ajouter une fonction IA", x: "Rappels d'échéances automatiques, deuxième automatisation, une fonction IA dont tu vérifies chaque résultat." },
+    { m: "m5", t: "Sécuriser et mettre en ligne", x: "Droits d'accès, fiche RGPD, tests de recette, déploiement." },
+    { m: "m6", t: "Documenter et proposer", x: "Documentation, présentation client, estimation et proposition commerciale." }
+  ],
+  sessions: []
+};
+
+/* ---------- Mois 1 : séances détaillées ---------- */
+const R_LUCID = { label: "Guide de cartographie des processus (Lucid)", url: "https://lucid.co/fr/diagramme/cartographie-de-processus/tutoriel", note: "extrait consulté le 21 oct. 2026" };
+const R_OC_BESOIN = { label: "Recueillez les besoins de votre client (OpenClassrooms)", url: "https://openclassrooms.com/fr/courses/6739646-realisez-un-cahier-des-charges-fonctionnel/6754051-recueillez-les-besoins-de-votre-client", note: "extrait consulté, accès gratuit au cours complet non vérifié" };
+const R_OC_MOSCOW = { label: "Priorisez vos fonctionnalités avec MoSCoW (OpenClassrooms)", url: "https://openclassrooms.com/fr/courses/8708511-pilotez-vos-projets-de-developpement-en-mode-agile/8749091-priorisez-vos-fonctionnalites-avec-moscow", note: "extrait consulté, accès gratuit au cours complet non vérifié" };
+const R_CNIL = { label: "Atelier RGPD (CNIL)", url: "https://www.cnil.fr/fr/comprendre-le-rgpd/le-mooc-de-la-cnil", note: "gratuit selon la page consultée ; fais le module 1 seulement ce mois-ci" };
+const R_FICHE = { label: "Fiche officielle RNCP42191 (France compétences)", url: "https://www.francecompetences.fr/recherche/rncp/42191/", note: "page lue en entier le 21 oct. 2026" };
+
+PROGRAM.sessions.push(
+{
+  id: "m1s0", w: 1, o: 0, kind: "Démarrage", min: 45, c: ["c01"],
+  title: "Séance 0 : ton espace et ta première carte",
+  goal: "Préparer ton dossier portfolio, régler ton tuteur Claude et dessiner un brouillon de carte de processus.",
+  course: [
+    { h: "Processus métier", p: "Un processus métier est une suite d'étapes qui part d'un déclencheur et aboutit à un résultat. Exemple : renouveler sa carte conducteur. Déclencheur : la date de fin approche. Résultat : la nouvelle carte est dans ta poche." },
+    { h: "Logigramme", p: "Un logigramme dessine un processus avec des formes : rectangle = une étape, losange = une décision (oui ou non), ovale = début ou fin. Les flèches donnent le sens." },
+    { h: "Ton tuteur Claude", p: "Claude t'explique, te pose des questions et corrige. La règle du parcours : tu essaies d'abord, il corrige ensuite." }
+  ],
+  resources: [R_LUCID],
+  tasks: [
+    "Crée un dossier « Portfolio » sur ton ordinateur et, dedans, un fichier texte « journal ».",
+    "Ouvre une conversation Claude et colle la consigne de tuteur ci-dessous.",
+    "Demande : « Explique-moi en 5 phrases ce qu'est un processus métier et un logigramme, avec un exemple de la vie quotidienne, sans informatique. » Écris en une phrase ce que tu en retiens.",
+    "Demande à Claude de jouer le responsable d'exploitation d'une entreprise fictive de transport frigorifique et de décrire en 8 phrases comment il suit les dates de validité des documents de ses 3 conducteurs.",
+    "Sur une feuille, dessine la carte : un rectangle par étape, un losange par décision. Ne demande pas la solution.",
+    "Envoie une photo de ta carte à Claude : « Dis-moi seulement ce qui est ambigu ou manquant. » Corrige un point.",
+    "Dans le journal : une chose apprise, une chose difficile, la prochaine action de 10 minutes."
+  ],
+  prompt: "Tu es mon tuteur en no-code et automatisation. Je débute en programmation. Règles : 1) tu expliques simplement et tu définis chaque terme technique la première fois ; 2) tu me fais essayer avant de me donner la solution ; 3) tu me poses une question à la fois ; 4) quand je te montre un travail, tu dis ce qui est ambigu ou manquant sans le corriger à ma place, sauf si je te le demande ; 5) si tu n'es pas sûr d'une information, tu le dis.",
+  deliverable: "Dossier Portfolio, journal et photo du brouillon de carte.",
+  criteria: ["Le dossier Portfolio et le journal existent.", "Le brouillon contient au moins un rectangle, un losange et des flèches.", "Tu as écrit une chose apprise et une chose difficile."],
+  questions: [
+    { q: "Que représente un losange dans un logigramme ?", a: "Une décision, avec au moins deux sorties (oui / non)." },
+    { q: "Pourquoi essayer avant de demander la solution à Claude ?", a: "On retient mieux en cherchant et en se trompant. Claude sert à corriger, pas à faire à ta place." }
+  ]
+},
+{
+  id: "m1w1a", w: 1, o: 1, kind: "Comprendre", min: 90, c: ["c01"],
+  title: "Comprendre : processus, acteurs et irritants",
+  goal: "Savoir lire et décrire un processus avec ses acteurs, ses documents et ses points de friction.",
+  course: [
+    { h: "Les éléments d'un processus", p: "Un acteur est une personne ou un service qui fait une étape. Une entrée est ce dont l'étape a besoin (un document, une date). Une sortie est ce qu'elle produit. Une carte des documents montre surtout ces entrées et sorties." },
+    { h: "Irritant", p: "Un irritant est un point du processus actuel qui fait perdre du temps, coûte de l'argent ou provoque des oublis. Les irritants indiquent où un outil no-code peut aider." },
+    { h: "Structure d'un prompt", p: "Un prompt est la consigne que tu donnes à Claude. Un bon prompt contient un rôle, un contexte, une tâche et un format de réponse attendu." }
+  ],
+  resources: [R_LUCID],
+  tasks: [
+    "Lis les passages sur les types de cartes de processus dans le guide Lucid (20 min).",
+    "Écris avec tes mots la définition de : processus, acteur, entrée, sortie, irritant.",
+    "Liste les documents d'un conducteur pour t'entraîner (exemple fictif : permis, carte conducteur, FCO, visite médicale). Pour chacun, note qui s'en occupe.",
+    "Demande à Claude de relire tes définitions et de relever celles qui sont fausses.",
+    "Écris un prompt avec rôle, contexte, tâche et format. Teste-le."
+  ],
+  deliverable: "Fiche de définitions (1/2 page) dans le portfolio.",
+  criteria: ["Chaque définition est dite avec tes mots.", "Tu donnes un exemple pour chaque terme.", "Ton prompt contient rôle, contexte, tâche et format."],
+  questions: [
+    { q: "Qu'est-ce qu'un irritant ?", a: "Un point du processus actuel qui fait perdre du temps, coûte cher ou provoque des oublis." },
+    { q: "Donne une entrée et une sortie pour le suivi de la carte conducteur.", a: "Entrée : la date de fin de validité. Sortie : la demande de renouvellement envoyée à temps." }
+  ]
+},
+{
+  id: "m1w1b", w: 1, o: 2, kind: "Pratiquer", min: 120, c: ["c01"],
+  title: "Pratiquer : décrire et dessiner le processus actuel",
+  goal: "Faire parler un exploitant fictif et dessiner la carte du suivi actuel des documents.",
+  course: [
+    { h: "Méthode", p: "Tu poses les questions, Claude joue l'exploitant. Note les étapes dans l'ordre, repère les décisions (« si la date est dans moins de 30 jours… ») et les documents manipulés." },
+    { h: "Taille de la carte", p: "Commence par 5 à 6 étapes de haut niveau, puis détaille. Une carte de 5 à 10 étapes suffit pour ce travail." }
+  ],
+  resources: [R_LUCID],
+  tasks: [
+    "Colle la consigne ci-dessous dans Claude.",
+    "Pose-lui au moins 8 questions pour comprendre comment le suivi se fait aujourd'hui.",
+    "Dessine la carte : 5 à 10 étapes, au moins 2 décisions, les documents en entrée ou en sortie.",
+    "Envoie la photo à Claude : « Dis-moi seulement ce qui est ambigu ou manquant. »",
+    "Corrige ta carte au moins 2 fois."
+  ],
+  prompt: "Joue le responsable d'exploitation de « Transports Lemoine Froid » (entreprise fictive, 3 conducteurs, camions frigorifiques). Décris-moi en 8 phrases comment il suit aujourd'hui les dates de validité des documents de ses conducteurs, avec des imperfections réalistes. Je vais te poser des questions. Ne me donne pas la carte du processus.",
+  deliverable: "Carte du processus « aujourd'hui », version corrigée.",
+  criteria: ["5 à 10 étapes, au moins 2 décisions.", "Chaque document apparaît en entrée ou en sortie.", "Une personne extérieure suit la carte sans explication."],
+  questions: [
+    { q: "Pourquoi poser des questions plutôt que dessiner tout de suite ?", a: "La carte doit représenter ce qui se passe vraiment, pas ce que tu supposes." },
+    { q: "Comment reconnaît-on une décision dans le récit de l'exploitant ?", a: "Par un « si… alors… » : une condition qui change la suite des étapes." }
+  ]
+},
+{
+  id: "m1w1c", w: 1, o: 3, kind: "Produire", min: 150, c: ["c01"],
+  title: "Produire : la fiche processus et 3 irritants",
+  goal: "Mettre la carte au propre et identifier 3 irritants.",
+  course: [
+    { h: "Fiche d'une page", p: "La fiche résume : qui fait quoi, quand, avec quels documents. Elle sert de base au dossier de cadrage." },
+    { h: "Choisir ses irritants", p: "Retiens ceux qui se répètent et dont l'erreur coûte cher. Ils guideront les besoins de la semaine suivante." }
+  ],
+  resources: [],
+  tasks: [
+    "Redessine la carte proprement (papier ou outil gratuit de ton choix).",
+    "Écris la fiche d'une page : acteurs, étapes, documents, délais.",
+    "Liste 3 irritants avec, pour chacun, la conséquence (oubli, retard, perte de temps).",
+    "Demande à Claude de jouer un lecteur extérieur et de te dire où il se perd.",
+    "Range la carte et la fiche dans le portfolio."
+  ],
+  deliverable: "Carte du processus + fiche d'une page + 3 irritants.",
+  criteria: ["Un lecteur extérieur suit la carte sans explication.", "5 à 10 étapes, au moins 2 décisions.", "3 irritants identifiés, chacun avec sa conséquence."],
+  questions: [
+    { q: "À quoi sert la fiche processus dans la suite du projet ?", a: "Elle alimente le dossier de cadrage et relie chaque besoin à un irritant réel." },
+    { q: "Quels irritants retenir en priorité ?", a: "Ceux qui se répètent et dont l'erreur coûte cher." }
+  ]
+},
+{
+  id: "m1w2a", w: 2, o: 1, kind: "Comprendre", min: 90, c: ["c02"],
+  title: "Comprendre : besoin, solution et priorités",
+  goal: "Distinguer un besoin d'une solution et connaître la méthode MoSCoW.",
+  course: [
+    { h: "Besoin ou solution ?", p: "Un besoin dit ce qu'il faut obtenir (« ne plus oublier une échéance »). Une solution dit comment (« une application »). On écrit d'abord les besoins." },
+    { h: "Fonctionnel et non fonctionnel", p: "Un besoin fonctionnel décrit ce que le système fait. Un besoin non fonctionnel décrit comment il le fait (rapide, accessible sur téléphone, sécurisé)." },
+    { h: "Contraintes", p: "Les contraintes les plus courantes limitent le temps, les ressources ou le budget. Elles se notent comme les besoins." },
+    { h: "MoSCoW", p: "Must (indispensable), Should (important), Could (souhaitable), Won't (pas cette fois). Si tout est « Must », la priorisation ne sert à rien. Le cours OpenClassrooms donne un repère : les Must ne dépassent pas 20 à 30 % de la liste." }
+  ],
+  resources: [R_OC_BESOIN, R_OC_MOSCOW],
+  tasks: [
+    "Lis les deux extraits OpenClassrooms (30 min).",
+    "Transforme 5 solutions en besoins (exemple : « un tableau de bord » devient « voir d'un coup d'œil ce qui expire »).",
+    "Classe ces 5 besoins en fonctionnels / non fonctionnels.",
+    "Fais corriger par Claude après ta tentative."
+  ],
+  deliverable: "Tableau « solution → besoin » (5 lignes).",
+  criteria: ["Aucun besoin ne nomme un outil.", "Chaque besoin est classé fonctionnel ou non fonctionnel."],
+  questions: [
+    { q: "« Une application mobile » est-ce un besoin ?", a: "Non, c'est une solution. Le besoin pourrait être : consulter ses échéances depuis son téléphone." },
+    { q: "Que signifie le W de MoSCoW ?", a: "Won't have : ce qu'on décide de ne pas faire cette fois." }
+  ]
+},
+{
+  id: "m1w2b", w: 2, o: 2, kind: "Pratiquer", min: 120, c: ["c02"],
+  title: "Pratiquer : mener l'entretien",
+  goal: "Préparer 10 questions ouvertes et repérer une contradiction pendant l'entretien.",
+  course: [
+    { h: "Questions ouvertes", p: "Une question ouverte ne se résume pas à oui ou non : « Raconte-moi la dernière fois qu'un document a expiré ». Les relances clarifient : « Peux-tu me donner un exemple ? »" },
+    { h: "Reformuler", p: "Reformuler, c'est redire avec tes mots ce que tu as compris. Ça révèle les malentendus et les contradictions." }
+  ],
+  resources: [R_OC_BESOIN],
+  tasks: [
+    "Écris 10 questions ouvertes avant l'entretien.",
+    "Colle la consigne ci-dessous dans Claude et mène l'entretien.",
+    "Reformule à voix haute ou par écrit au moins 3 points.",
+    "Repère la contradiction que l'exploitant a glissée.",
+    "Note les besoins, les contraintes et les irritants cités."
+  ],
+  prompt: "Joue le responsable d'exploitation de « Transports Lemoine Froid » (fictif). Je vais te poser des questions pour comprendre tes besoins sur le suivi des documents de tes conducteurs. Réponds comme un vrai chef d'exploitation pressé. Glisse volontairement une contradiction dans tes réponses, sans la signaler. À la fin, je te dirai ce que j'ai repéré.",
+  deliverable: "Liste de 10 questions + notes d'entretien.",
+  criteria: ["Les 10 questions sont ouvertes.", "La contradiction est repérée.", "Tu as reformulé au moins 3 réponses."],
+  questions: [
+    { q: "Donne un exemple de question ouverte.", a: "« Raconte-moi la dernière fois qu'un document a expiré. »" },
+    { q: "Pourquoi reformuler ?", a: "Pour vérifier que tu as bien compris et faire apparaître les contradictions." }
+  ]
+},
+{
+  id: "m1w2c", w: 2, o: 3, kind: "Produire", min: 150, c: ["c02"],
+  title: "Produire : compte rendu et 12 besoins priorisés",
+  goal: "Rédiger le compte rendu et classer 12 besoins avec MoSCoW.",
+  course: [
+    { h: "Compte rendu", p: "Une page : participants, date, points clés, décisions, questions ouvertes. Il sert de preuve de ce que le client a dit." },
+    { h: "Relier chaque besoin à un irritant", p: "Chaque besoin doit répondre à un irritant de la semaine 1, sinon il n'a pas sa place dans le MVP." }
+  ],
+  resources: [R_OC_MOSCOW],
+  tasks: [
+    "Rédige le compte rendu d'une page.",
+    "Liste 12 besoins sans nommer d'outil.",
+    "Classe-les en MoSCoW sans aide, puis compare avec l'avis de Claude.",
+    "Vérifie que les Must ne dépassent pas 30 % de la liste.",
+    "Relie chaque besoin à un irritant de la semaine 1."
+  ],
+  deliverable: "Compte rendu (1 page) + tableau de 12 besoins priorisés.",
+  criteria: ["Aucun besoin ne nomme un outil.", "Les Must ne dépassent pas 30 % des besoins.", "Chaque besoin se rattache à un irritant.", "La contradiction de l'entretien est traitée."],
+  questions: [
+    { q: "Pourquoi relier chaque besoin à un irritant ?", a: "Pour éviter de construire des fonctions qui ne résolvent aucun problème réel." },
+    { q: "Que faire si tout paraît « Must » ?", a: "Se demander si le produit peut exister sans cette fonction. Sinon, ce n'est pas un Must." }
+  ]
+},
+{
+  id: "m1w3a", w: 3, o: 1, kind: "Comprendre", min: 90, c: ["c05", "c06", "c03"],
+  title: "Comprendre : MVP, périmètre et indicateurs",
+  goal: "Savoir définir un MVP, son périmètre et ses indicateurs de succès.",
+  course: [
+    { h: "MVP", p: "Un MVP (produit minimum viable) est la première version minimale mais utile, qui permet d'obtenir des retours avant d'aller plus loin." },
+    { h: "Périmètre et hors périmètre", p: "Le périmètre liste ce qui est inclus. Le hors périmètre liste ce qui est exclu volontairement. Les deux évitent les malentendus." },
+    { h: "Indicateur de succès", p: "Un indicateur est mesurable : valeur de départ et cible. Exemple : « nombre de documents expirés non détectés : de 2 par an à 0 »." },
+    { h: "Faisabilité et données personnelles", p: "Vérifie que le MVP tient dans les limites des outils gratuits. Le nom d'un conducteur est une donnée personnelle : le RGPD s'applique." }
+  ],
+  resources: [R_FICHE, R_CNIL],
+  tasks: [
+    "Lis la liste des compétences du bloc BC01 sur la fiche officielle.",
+    "Fais le module 1 de l'Atelier RGPD de la CNIL.",
+    "Écris en tes mots : MVP, périmètre, hors périmètre, indicateur, donnée personnelle.",
+    "Demande à Claude 3 questions rapides pour te tester."
+  ],
+  deliverable: "Fiche de définitions + attestation du module 1 si disponible.",
+  criteria: ["Tu expliques la différence entre périmètre et hors périmètre.", "Tu sais écrire un indicateur avec valeur de départ et cible."],
+  questions: [
+    { q: "Pourquoi écrire le hors périmètre ?", a: "Pour que tout le monde sache ce qui n'est pas prévu et éviter les demandes qui s'accumulent." },
+    { q: "Qu'est-ce qu'un bon indicateur de succès ?", a: "Un indicateur mesurable, avec une valeur de départ et une cible." }
+  ]
+},
+{
+  id: "m1w3b", w: 3, o: 2, kind: "Pratiquer", min: 120, c: ["c05", "c06"],
+  title: "Pratiquer : défendre ton périmètre",
+  goal: "Écrire le périmètre en 10 lignes et le défendre devant un décideur pressé.",
+  course: [
+    { h: "Trois questions du décideur", p: "Pourquoi ce périmètre ? Combien de temps ? Comment saura-t-on que ça marche ? Prépare une réponse courte à chacune." }
+  ],
+  resources: [],
+  tasks: [
+    "Écris seul l'ébauche du périmètre en 10 lignes : suivi des échéances de documents de 3 conducteurs fictifs.",
+    "Colle la consigne ci-dessous dans Claude et défends ton choix.",
+    "Ajuste le périmètre après l'échange.",
+    "Note 2 risques et une mesure pour chacun."
+  ],
+  prompt: "Joue un directeur d'entreprise de transport frigorifique, pressé et sceptique. Je vais te présenter le périmètre d'un petit outil de suivi des documents de conducteurs (données fictives). Interroge-moi : pourquoi ce périmètre, combien de temps, comment saura-t-on que ça marche ? Attaque mes points faibles, une question à la fois.",
+  deliverable: "Périmètre en 10 lignes, version ajustée.",
+  criteria: ["Le MVP tient dans les limites des outils gratuits.", "Tu as répondu aux trois questions du décideur."],
+  questions: [
+    { q: "Comment savoir si le MVP est assez petit ?", a: "Il se construit en quelques semaines avec les outils gratuits et ne contient que les Must." },
+    { q: "Cite un risque d'un tel projet.", a: "Exemple : la liste des documents est incomplète. Mesure : la faire relire par un professionnel." }
+  ]
+},
+{
+  id: "m1w3c", w: 3, o: 3, kind: "Produire", min: 150, c: ["c05", "c06", "c03"],
+  title: "Produire : dossier de cadrage v0",
+  goal: "Écrire la version 0 du dossier de cadrage (3 à 4 pages).",
+  course: [
+    { h: "Plan du dossier", p: "Contexte, besoins prioritaires, périmètre du MVP, hors périmètre, indicateurs, risques, planning." },
+    { h: "Relecture", p: "À la fin de la semaine 3, fais relire le dossier par un collègue ou un exploitant du transport routier. La liste de documents reste fictive tant qu'un professionnel ne l'a pas validée. La réglementation du transport routier n'est pas vérifiée ici." }
+  ],
+  resources: [R_FICHE],
+  tasks: [
+    "Rédige le contexte et les besoins prioritaires.",
+    "Rédige le périmètre, le hors périmètre et les 2 indicateurs.",
+    "Rédige les risques (dont le risque RGPD) et un planning en 3 étapes.",
+    "Relis-toi à voix haute puis fais relire par Claude.",
+    "Demande une relecture à un collègue ou un exploitant."
+  ],
+  deliverable: "Dossier de cadrage v0 (3 à 4 pages).",
+  criteria: ["Au moins 2 indicateurs avec valeur de départ et cible.", "Le risque RGPD est cité.", "Un lecteur extérieur voit ce qui est exclu.", "Le MVP tient en 6 semaines de travail."],
+  questions: [
+    { q: "Quelles sections contient le dossier de cadrage ?", a: "Contexte, besoins prioritaires, périmètre, hors périmètre, indicateurs, risques, planning." },
+    { q: "Pourquoi faire relire par un professionnel ?", a: "Pour vérifier que la liste de documents et les règles sont réalistes." }
+  ]
+},
+{
+  id: "m1w4a", w: 4, o: 1, kind: "Consolider", min: 150, c: ["c01", "c02", "c05", "c06"],
+  title: "Consolider : reprendre ton point faible",
+  goal: "Améliorer le livrable le plus faible du mois.",
+  course: [
+    { h: "Choisir", p: "Relis tes trois livrables et choisis celui qui te paraît le moins solide. Utilise les critères de maîtrise de chaque séance." }
+  ],
+  resources: [],
+  tasks: [
+    "Relis la carte, le compte rendu et le dossier v0.",
+    "Choisis le livrable le plus faible et note pourquoi.",
+    "Colle la consigne ci-dessous dans Claude.",
+    "Reprends le livrable en tenant compte des objections.",
+    "Mets à jour le portfolio."
+  ],
+  prompt: "Joue un client exigeant. Je vais te présenter un de mes livrables (processus, besoins ou dossier de cadrage). Conteste chaque choix, une objection à la fois. Je réponds et je corrige. À la fin, dis-moi ce qui reste ambigu, sans réécrire à ma place.",
+  deliverable: "Livrable amélioré.",
+  criteria: ["Tu sais dire ce que tu as amélioré et pourquoi.", "Le livrable respecte les critères de sa séance."],
+  questions: [
+    { q: "Comment choisir ton point faible ?", a: "En comparant chaque livrable aux critères de maîtrise de sa séance." },
+    { q: "Que fait Claude pendant la consolidation ?", a: "Il joue le client exigeant et signale ce qui reste ambigu. Il ne réécrit pas à ta place." }
+  ]
+},
+{
+  id: "m1w4b", w: 4, o: 2, kind: "Bilan", min: 90, c: ["c01", "c02", "c05"],
+  title: "Bilan pratique du mois 1 (90 minutes chronométrées)",
+  goal: "Refaire la démarche seul, sans aide, sur un nouveau cas.",
+  course: [
+    { h: "Règles du bilan", p: "Cas : un garage de quartier (fictif) qui suit les contrôles techniques de ses véhicules de prêt. Chronomètre 90 minutes. Pas de solution donnée. Tu peux utiliser tes notes." }
+  ],
+  resources: [],
+  tasks: [
+    "Lance le chronomètre (onglet Suivi) pour 90 minutes.",
+    "Dessine la carte du processus du garage.",
+    "Écris 5 besoins priorisés en MoSCoW.",
+    "Écris le périmètre du MVP sur une page.",
+    "Note ton temps réel et ce qui t'a bloqué."
+  ],
+  deliverable: "Carte, 5 besoins priorisés et périmètre d'une page sur le cas du garage.",
+  criteria: ["Terminé en 90 minutes.", "Au moins 4 critères sur 5 respectés par livrable.", "Aucune aide reçue pendant l'épreuve."],
+  questions: [
+    { q: "Que fais-tu si tu bloques pendant le bilan ?", a: "Tu notes le blocage, tu passes à la suite et tu le travailleras en consolidation." },
+    { q: "Pourquoi un nouveau cas ?", a: "Pour vérifier que tu sais refaire la démarche, pas seulement répéter la première." }
+  ]
+},
+{
+  id: "m1w4c", w: 4, o: 3, kind: "Portfolio", min: 120, c: ["c01", "c02", "c05", "c06"],
+  title: "Portfolio v1 et auto-évaluation du bloc BC01",
+  goal: "Mettre au propre le portfolio et évaluer honnêtement tes 6 compétences.",
+  course: [
+    { h: "Terminé n'est pas maîtrisé", p: "Une séance terminée prouve que tu as travaillé. Une compétence maîtrisée se prouve en la refaisant seul. Dans l'onglet Projet, évalue chaque compétence : vue, faite avec aide, faite seul." }
+  ],
+  resources: [R_FICHE],
+  tasks: [
+    "Range les livrables du mois 1 dans le portfolio.",
+    "Ajoute leurs liens dans l'onglet Projet.",
+    "Évalue les compétences c01 à c06 dans l'onglet Projet (Compétences).",
+    "Écris les 2 points à travailler le mois prochain."
+  ],
+  deliverable: "Portfolio v1 et tableau d'auto-évaluation BC01.",
+  criteria: ["Les 6 compétences sont évaluées.", "Au moins 4 sur 6 sont notées « faite seul » pour passer au mois 2."],
+  questions: [
+    { q: "Quelle différence entre séance terminée et compétence maîtrisée ?", a: "La première dit que tu as travaillé. La seconde dit que tu sais le refaire seul." },
+    { q: "Que faire d'une compétence notée « avec aide » ?", a: "La remettre dans les révisions et la refaire seul plus tard." }
+  ]
+}
+);
+
+/* ---------- Mois 2 à 6 : une séance à préparer par semaine ---------- */
+PROGRAM.weeks.filter(w => w.n >= 5 && w.n <= 24).forEach(w => {
+  const comps = {
+    5: ["c07"], 6: ["c07", "c08"], 7: ["c09", "c10"], 8: ["c09", "c10", "c11"],
+    9: ["c12"], 10: ["c13"], 11: ["c14", "c19"], 12: ["c04", "c12", "c14"],
+    13: ["c15", "c17"], 14: ["c17", "c18"], 15: ["c15", "c16"], 16: ["c15", "c16", "c17", "c18"],
+    17: ["c19", "c20"], 18: ["c03", "c20"], 19: ["c24"], 20: ["c25", "c20"],
+    21: ["c27"], 22: ["c26", "c28", "c29"], 23: ["c21", "c22"], 24: ["c21", "c23"]
+  }[w.n] || [];
+  PROGRAM.sessions.push({
+    id: "w" + w.n + "p", w: w.n, o: 1, kind: "À préparer", min: 360, c: comps, prepare: true,
+    title: "Semaine " + w.n + " : " + w.title,
+    goal: w.goal,
+    course: [], resources: [], tasks: [], deliverable: "", criteria: [], questions: []
+  });
+});
+
+/* ===== Stockage =====
+   Toute la lecture/écriture passe par Store. Plus tard, on pourra remplacer
+   Store par une version qui parle à un compte en ligne, sans toucher au reste. */
+const KEY = "pbn.formation.v1";
+const Store = {
+  mem: null, ok: true,
+  load() {
+    try { const raw = localStorage.getItem(KEY); if (raw) return JSON.parse(raw); } catch (e) { this.ok = false; }
+    return this.mem;
+  },
+  save(state) {
+    this.mem = state;
+    try { localStorage.setItem(KEY, JSON.stringify(state)); this.ok = true; } catch (e) { this.ok = false; }
+  }
+};
+function freshState() {
+  return { v: 1, createdAt: new Date().toISOString(), settings: { theme: "auto", goalMin: 360 }, progress: {}, plan: {}, custom: [],
+    timeLog: [], reviews: [], deliverables: {}, mastery: {}, weekly: {}, timer: null, lastExport: null, lastActive: null };
+}
+let S = Store.load() || freshState();
+function fillDefaults(s) { const f = freshState(); for (const k in f) if (s[k] === undefined) s[k] = f[k]; return s; }
+S = fillDefaults(S);
+let saveT = null;
+function save() { S.lastActive = new Date().toISOString(); clearTimeout(saveT); saveT = setTimeout(() => Store.save(S), 150); }
+function saveNow() { S.lastActive = new Date().toISOString(); Store.save(S); }
+window.addEventListener("pagehide", () => Store.save(S));
+
+/* ===== Utilitaires ===== */
+const $ = (s, r = document) => r.querySelector(s);
+const esc = (t) => String(t == null ? "" : t).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const uid = () => Math.random().toString(36).slice(2, 9) + Date.now().toString(36).slice(-4);
+const pad = n => String(n).padStart(2, "0");
+const dayKey = (d = new Date()) => d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate());
+function mondayKey(d = new Date()) { const x = new Date(d.getFullYear(), d.getMonth(), d.getDate()); const w = (x.getDay() + 6) % 7; x.setDate(x.getDate() - w); return dayKey(x); }
+function fmtMin(m) { m = Math.round(m); if (m < 60) return m + " min"; const h = Math.floor(m / 60), r = m % 60; return h + " h" + (r ? " " + pad(r) : ""); }
+function fmtDate(iso) { try { return new Date(iso).toLocaleDateString("fr-FR", { day: "numeric", month: "short", year: "numeric" }); } catch (e) { return iso; } }
+function toast(msg) { const t = document.createElement("div"); t.className = "toast"; t.setAttribute("role", "status"); t.textContent = msg; document.body.appendChild(t); setTimeout(() => t.remove(), 2600); }
+
+const STATUTS = { a_commencer: "À commencer", en_cours: "En cours", termine: "Terminé", a_revoir: "À revoir" };
+const MAITRISE = { vu: "Vue", aide: "Faite avec aide", seul: "Faite seul" };
+const ICONS = {
+  home: '<path d="M3 11l9-8 9 8M5 10v10h5v-6h4v6h5V10"/>',
+  path: '<circle cx="6" cy="18" r="2"/><circle cx="18" cy="6" r="2"/><path d="M8 18h6a4 4 0 000-8h-4a4 4 0 010-8h6"/>',
+  review: '<path d="M4 4v6h6M20 20v-6h-6"/><path d="M20 10a8 8 0 00-14-3L4 10M4 14a8 8 0 0014 3l2-3"/>',
+  project: '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 14h5"/>',
+  track: '<circle cx="12" cy="13" r="8"/><path d="M12 9v4l3 2M9 2h6"/>'
+};
+const icon = k => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + ICONS[k] + '</svg>';
+
+/* ===== Programme fusionné (programme de base + séances personnelles + planning modifié) ===== */
+function allSessions() {
+  const base = PROGRAM.sessions.map(s => Object.assign({}, s));
+  const extra = (S.custom || []).map(s => Object.assign({ kind: "Perso", c: [], course: [], resources: [], criteria: [], questions: [], custom: true }, s));
+  return base.concat(extra).map(s => { s.week = S.plan[s.id] != null ? S.plan[s.id] : s.w; return s; })
+    .sort((a, b) => a.week - b.week || (a.o ?? 99) - (b.o ?? 99));
+}
+const sessionById = id => allSessions().find(s => s.id === id);
+const prog = id => S.progress[id] || (S.progress[id] = { status: "a_commencer", tasks: {}, notes: "", links: [], understanding: null, finishedAt: null });
+const statusOf = id => (S.progress[id] && S.progress[id].status) || "a_commencer";
+const weekInfo = n => PROGRAM.weeks.find(w => w.n === n);
+const moduleOf = id => PROGRAM.modules.find(m => m.id === id);
+const moduleOfWeek = n => { const w = weekInfo(n); return w ? moduleOf(w.m) : null; };
+
+function currentSession() {
+  const all = allSessions();
+  return all.find(s => statusOf(s.id) === "en_cours") || all.find(s => statusOf(s.id) === "a_commencer") || all.find(s => statusOf(s.id) === "a_revoir") || null;
+}
+function globalProgress() {
+  const all = allSessions(); let total = 0, done = 0, nDone = 0;
+  all.forEach(s => { total += s.min; if (statusOf(s.id) === "termine") { done += s.min; nDone++; } });
+  return { pct: total ? Math.round(done / total * 100) : 0, nDone, n: all.length, done, total };
+}
+function minutesThisWeek() {
+  const mk = mondayKey(); let m = 0;
+  S.timeLog.forEach(e => { if (mondayKey(new Date(e.date + "T12:00:00")) === mk) m += e.min; });
+  return m;
+}
+function nextTask(s) { const p = prog(s.id); const i = (s.tasks || []).findIndex((t, k) => !p.tasks[k]); return i >= 0 ? s.tasks[i] : null; }
+function daysSinceActive() { if (!S.lastActive) return null; return Math.floor((Date.now() - new Date(S.lastActive).getTime()) / 86400000); }
+
+/* ===== Routage ===== */
+let route = { name: "home", id: null };
+function go(name, id, push = true) {
+  route = { name, id: id || null };
+  try { if (push) history.replaceState(null, "", "#"); } catch (e) {}
+  render(); window.scrollTo(0, 0);
+}
+let viewOpts = { parcours: { open: null }, revisions: { tab: "revoir" }, projet: { tab: "etapes" }, suivi: {} };
+
+/* ===== Rendu ===== */
+const NAV = [["home", "Accueil", "home"], ["parcours", "Parcours", "path"], ["revisions", "Révisions", "review"], ["projet", "Projet", "project"], ["suivi", "Suivi", "track"]];
+function renderNav() {
+  const active = route.name === "seance" ? "parcours" : route.name;
+  $("#nav").innerHTML = NAV.map(([k, l, i]) => '<button data-go="' + k + '"' + (active === k ? ' aria-current="page"' : "") + ">" + icon(i) + "<span>" + l + "</span></button>").join("");
+}
+function render() {
+  renderNav();
+  const v = { home: viewHome, parcours: viewParcours, seance: viewSeance, revisions: viewRevisions, projet: viewProjet, suivi: viewSuivi }[route.name] || viewHome;
+  $("#view").innerHTML = v();
+  applyTheme();
+  afterRender();
+}
+function applyTheme() {
+  const t = S.settings.theme; const r = document.documentElement;
+  if (t === "light" || t === "dark") r.setAttribute("data-theme", t); else r.removeAttribute("data-theme");
+}
+
+function statusPill(id) {
+  const s = statusOf(id); const cls = { en_cours: "cours", termine: "fini", a_revoir: "revoir", a_commencer: "" }[s];
+  return '<span class="pill ' + cls + '">' + STATUTS[s] + "</span>";
+}
+function road(pct) { return '<div class="road" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="' + pct + '" aria-label="Avancement"><i style="width:' + Math.max(pct, 2) + '%"></i></div>'; }
+
+/* --- Accueil --- */
+function viewHome() {
+  const cur = currentSession(); const g = globalProgress(); const mins = minutesThisWeek(); const goal = S.settings.goalMin || 360;
+  const first = g.nDone === 0 && Object.keys(S.progress).length === 0;
+  const idle = daysSinceActive();
+  const wk = cur ? weekInfo(cur.week) : null; const mod = cur ? moduleOfWeek(cur.week) : null;
+  let html = '<div class="view-head"><h1>' + (first ? "Bienvenue" : "Bonjour") + "</h1><p>" + (first ? "Tu commences avec une séance de 45 minutes." : "Voici où tu en es.") + "</p></div>";
+  if (!Store.ok) html += '<div class="banner" role="alert">La sauvegarde automatique est indisponible dans ce navigateur. Exporte tes données dans Suivi pour ne rien perdre.</div>';
+  if (idle !== null && idle >= 7) html += '<div class="welcome"><h3>Content de te revoir</h3><p>Pas besoin de rattraper quoi que ce soit. Une reprise de 15 minutes suffit pour te remettre dans le bain.</p><div><button class="btn" data-act="reprise">Faire la reprise de 15 minutes</button></div></div>';
+  if (cur) {
+    const started = statusOf(cur.id) === "en_cours"; const nt = nextTask(cur);
+    html += '<section class="hero"><div class="row between"><span class="pill ' + (started ? "cours" : "") + '">' + (started ? "En cours" : "Prochaine séance") + "</span>" +
+      '<span class="muted small">' + esc(mod ? "Module " + mod.month + " · " + mod.title : "") + "</span></div>" +
+      "<h2>" + esc(cur.title) + "</h2><p class=\"muted\">Semaine " + cur.week + (wk ? " : " + esc(wk.title) : "") + " · " + fmtMin(cur.min) + "</p>" +
+      '<div class="next"><span class="small muted">Prochaine action concrète</span><b>' + esc(nt || (cur.prepare ? "Demande-moi de préparer le contenu de cette semaine." : "Ouvre la séance et termine-la.")) + "</b></div>" +
+      '<div><button class="btn primary big" data-open="' + cur.id + '">Reprendre ma formation</button></div></section>';
+  } else html += '<section class="hero"><h2>Tout est terminé</h2><p class="muted">Toutes les séances sont terminées. Passe dans Révisions et Projet pour consolider.</p></section>';
+  html += '<div class="grid2"><section class="card"><h2>Avancement global</h2><div class="row between"><span class="big-num">' + g.pct + ' %</span><span class="muted small">' + g.nDone + " séance" + (g.nDone > 1 ? "s" : "") + " terminée" + (g.nDone > 1 ? "s" : "") + " sur " + g.n + "</span></div>" + road(g.pct) +
+    '<p class="muted small">Calculé sur le temps prévu. Les mois 2 à 6 sont encore à détailler séance par séance.</p></section>' +
+    '<section class="card"><h2>Cette semaine</h2><div class="row between"><span class="big-num">' + fmtMin(mins) + '</span><span class="muted small">objectif ' + fmtMin(goal) + "</span></div>" + road(Math.min(100, Math.round(mins / goal * 100))) +
+    '<p class="muted small">Le temps vient de ton chronomètre et de tes saisies dans Suivi.</p></section></div>';
+  const ch = Object.values(S.mastery).filter(v => v === "seul").length;
+  html += '<section class="card flat"><h3>Séance terminée ou compétence maîtrisée ?</h3><p class="muted small">Terminer une séance prouve que tu as travaillé. Une compétence est maîtrisée quand tu la refais seul. ' + ch + " sur " + PROGRAM.competences.length + ' compétences notées « faite seul ». <a href="#" data-go="projet" data-tab="comp">Évaluer mes compétences</a></p></section>';
+  return html;
+}
+
+/* --- Parcours --- */
+function viewParcours() {
+  const all = allSessions(); const cur = currentSession();
+  let html = '<div class="view-head"><h1>Parcours de formation</h1><p>6 mois, 6 heures par semaine. Tu peux déplacer une séance vers une autre semaine : ta progression reste attachée à la séance.</p></div>';
+  html += PROGRAM.modules.map(m => {
+    const weeks = PROGRAM.weeks.filter(w => w.m === m.id); const ws = weeks.map(w => w.n);
+    const ss = all.filter(s => ws.includes(s.week)); const done = ss.filter(s => statusOf(s.id) === "termine").length;
+    const open = viewOpts.parcours.open === m.id || (viewOpts.parcours.open == null && cur && ws.includes(cur.week));
+    const prep = ss.filter(s => s.prepare).length;
+    return '<details class="module" data-mod="' + m.id + '"' + (open ? " open" : "") + '><summary><div class="row between"><h2>Module ' + m.month + " · " + esc(m.title) + '</h2><span class="muted small">' + done + "/" + ss.length + '</span></div><p class="muted small">' + esc(m.summary) + ' <b>Référentiel :</b> ' + esc(m.block) + (prep ? " · contenu à préparer pour " + prep + " semaine" + (prep > 1 ? "s" : "") : "") + "</p></summary><div class=\"module-body\">" +
+      weeks.map(w => {
+        const list = all.filter(s => s.week === w.n);
+        return '<div class="week-head"><h3>Semaine ' + w.n + " · " + esc(w.title) + '</h3></div>' +
+          (list.length ? '<ul class="list">' + list.map(s => sessionItem(s, cur)).join("") + "</ul>" : '<p class="muted small">Aucune séance cette semaine.</p>');
+      }).join("") + "</div></details>";
+  }).join("");
+  html += '<section class="card"><h2>Modifier le planning</h2><p class="muted small">Ajoute une séance personnelle ou remets le planning d\'origine. Rien de ta progression n\'est effacé.</p>' +
+    '<form class="form" id="f-custom"><div class="field"><label for="cu-t">Titre</label><input type="text" id="cu-t" required maxlength="120"></div>' +
+    '<div class="row"><div class="field" style="flex:1;min-width:120px"><label for="cu-w">Semaine</label><select id="cu-w">' + PROGRAM.weeks.map(w => '<option value="' + w.n + '">Semaine ' + w.n + "</option>").join("") + '</select></div>' +
+    '<div class="field" style="flex:1;min-width:120px"><label for="cu-m">Durée (min)</label><input type="number" id="cu-m" value="60" min="5" max="600"></div></div>' +
+    '<div class="field"><label for="cu-g">Objectif</label><input type="text" id="cu-g" maxlength="200"></div><div class="row"><button class="btn primary" type="submit">Ajouter la séance</button><button class="btn" type="button" data-act="reset-plan">Remettre le planning d\'origine</button></div></form></section>';
+  return html;
+}
+function sessionItem(s, cur) {
+  const weekOpts = PROGRAM.weeks.map(w => '<option value="' + w.n + '"' + (w.n === s.week ? " selected" : "") + ">S" + w.n + "</option>").join("");
+  return '<li class="item' + (cur && cur.id === s.id ? " cur" : "") + '"><div class="t"><b>' + esc(s.title) + '</b><span class="muted small">' + esc(s.kind) + " · " + fmtMin(s.min) + (s.prepare ? " · contenu à préparer" : "") + "</span></div>" +
+    '<div class="row" style="flex:none;justify-content:flex-end">' + statusPill(s.id) +
+    '<label class="sr" for="mv-' + s.id + '">Semaine de ' + esc(s.title) + '</label><select id="mv-' + s.id + '" data-move="' + s.id + '" style="width:auto;min-height:36px;padding:4px 8px">' + weekOpts + "</select>" +
+    '<button class="btn" data-open="' + s.id + '">Ouvrir</button></div></li>';
+}
+
+/* --- Séance --- */
+function viewSeance() {
+  const s = sessionById(route.id); if (!s) return '<p>Séance introuvable.</p><button class="btn" data-go="parcours">Retour</button>';
+  const p = prog(s.id); const mod = moduleOfWeek(s.week); const wk = weekInfo(s.week);
+  let html = '<button class="btn ghost back" data-go="parcours">← Parcours</button><div class="view-head"><div class="row"><span class="pill">' + esc(s.kind) + "</span>" + statusPill(s.id) + '<span class="muted small">Semaine ' + s.week + " · " + fmtMin(s.min) + "</span></div><h1>" + esc(s.title) + "</h1><p>" + esc(s.goal || "") + "</p></div>";
+  if (s.prepare) {
+    const dl = PROGRAM.deliverables.filter(d => mod && d.m === mod.id);
+    html += '<section class="card"><h2>Contenu à préparer</h2><p>Cette semaine n\'est pas encore détaillée. Demande-moi de préparer le cours, l\'exercice et le livrable avant d\'y arriver.</p><p class="muted small">Objectif de la semaine : ' + esc(s.goal) + "</p>" +
+      (dl.length ? '<h3>Livrables du module</h3><ul class="list">' + dl.map(d => '<li class="item"><div class="t"><b>' + esc(d.t) + '</b><span class="muted small">' + esc(d.d) + "</span></div></li>").join("") + "</ul>" : "") + "</section>";
+  } else {
+    if (s.course && s.course.length) html += '<section class="card course"><h2>Cours</h2>' + s.course.map(c => "<h3>" + esc(c.h) + "</h3><p>" + esc(c.p) + "</p>").join("") + "</section>";
+    if (s.prompt) html += '<section class="card"><h2>Consigne à coller dans Claude</h2><div class="promptbox" id="prompt-text">' + esc(s.prompt) + '</div><div><button class="btn" data-copy="prompt-text">Copier la consigne</button></div><p class="muted small">Cette application n\'est pas reliée à Claude. Tu ouvres Claude à part et tu colles la consigne.</p></section>';
+    if (s.tasks && s.tasks.length) html += '<section class="card"><h2>Consignes pratiques</h2><div>' + s.tasks.map((t, i) => '<label class="check' + (p.tasks[i] ? " done" : "") + '"><input type="checkbox" data-task="' + i + '"' + (p.tasks[i] ? " checked" : "") + "><span>" + esc(t) + "</span></label>").join("") + "</div></section>";
+    if (s.resources && s.resources.length) html += '<section class="card"><h2>Ressources</h2><ul class="list">' + s.resources.map(r => '<li class="item"><div class="t"><a href="' + esc(r.url) + '" target="_blank" rel="noopener"><b>' + esc(r.label) + '</b></a><span class="muted small">' + esc(r.note || "") + "</span></div></li>").join("") + "</ul></section>";
+    if (s.deliverable) html += '<section class="card"><h2>Livrable à conserver</h2><p>' + esc(s.deliverable) + "</p>" + (s.criteria && s.criteria.length ? '<h3>Tu maîtrises si…</h3><ul>' + s.criteria.map(c => "<li>" + esc(c) + "</li>").join("") + "</ul>" : "") + "</section>";
+  }
+  html += '<section class="card"><h2>Mes notes et réponses</h2><div class="field"><label class="sr" for="notes">Notes</label><textarea id="notes" placeholder="Ce que j\'ai compris, mes réponses, mes questions…">' + esc(p.notes) + "</textarea></div>" +
+    '<h3>Liens vers mes réalisations</h3><ul class="list" id="links">' + (p.links || []).map((l, i) => '<li class="item"><a href="' + esc(l.url) + '" target="_blank" rel="noopener">' + esc(l.label || l.url) + '</a><button class="btn ghost danger" data-dellink="' + i + '">Retirer</button></li>').join("") + "</ul>" +
+    '<form class="form" id="f-link"><div class="row"><div class="field" style="flex:1;min-width:140px"><label for="l-l">Nom</label><input type="text" id="l-l"></div><div class="field" style="flex:2;min-width:180px"><label for="l-u">Adresse (https://…)</label><input type="url" id="l-u" placeholder="https://"></div></div><div><button class="btn" type="submit">Ajouter le lien</button></div></form></section>';
+  if (s.c && s.c.length) html += '<section class="card flat"><h3>Compétences travaillées</h3><p class="muted small">' + s.c.map(id => id + " " + (PROGRAM.competences.find(c => c.id === id) || { t: "" }).t.split(" ").slice(0, 7).join(" ") + "…").map(esc).join("<br>") + '</p><p class="small">Terminer la séance ne valide pas ces compétences. <a href="#" data-go="projet" data-tab="comp">Les évaluer</a></p></section>';
+  const done = statusOf(s.id) === "termine";
+  html += '<section class="card" id="finish">' + (done ? '<h2>Séance terminée</h2><p class="muted">Terminée le ' + fmtDate(p.finishedAt) + (p.understanding ? " · compréhension : " + { 3: "bonne", 2: "partielle", 1: "à revoir" }[p.understanding] : "") + '.</p><div class="row"><button class="btn" data-act="reopen">Rouvrir</button><button class="btn" data-act="mark-review">Mettre à revoir</button></div>' : finishForm(s)) + "</section>";
+  if (s.custom) html += '<div><button class="btn ghost danger" data-act="del-custom">Supprimer cette séance personnelle</button></div>';
+  return html;
+}
+function finishForm(s) {
+  const qs = (s.questions || []);
+  return "<h2>Terminer la séance</h2>" + (qs.length ? '<p class="muted small">Petit bilan : réponds dans ta tête, puis ouvre la réponse.</p>' + qs.map(q => '<details class="qa"><summary>' + esc(q.q) + "</summary><p>" + esc(q.a) + "</p></details>").join("") : "") +
+    '<fieldset class="choices" style="border:0;padding:0;margin:0"><legend class="small muted" style="padding:0 0 6px">Comment s\'est passée la compréhension ?</legend>' +
+    [["3", "Je l'ai compris"], ["2", "Compris en partie"], ["1", "Pas encore, je veux le revoir"]].map(([v, l]) => '<label class="choice"><input type="radio" name="und" value="' + v + '"><span>' + l + "</span></label>").join("") + "</fieldset>" +
+    '<div class="field"><label for="f-min">Temps passé (minutes, facultatif)</label><input type="number" id="f-min" min="0" max="600" placeholder="' + s.min + '"></div>' +
+    '<div><button class="btn primary big" data-act="finish">Terminer la séance</button></div>';
+}
+
+/* --- Révisions --- */
+function viewRevisions() {
+  const tab = viewOpts.revisions.tab; const open = S.reviews.filter(r => !r.done);
+  let html = '<div class="view-head"><h1>Révisions</h1><p>Ce qui mérite d\'être revu, des questions pour te tester et une reprise courte.</p></div>' +
+    '<div class="tabs" role="tablist">' + [["revoir", "À revoir (" + open.length + ")"], ["questions", "Questions"], ["reprise", "Reprise 15 min"]].map(([k, l]) => '<button class="tab" role="tab" aria-selected="' + (tab === k) + '" data-rtab="' + k + '">' + l + "</button>").join("") + "</div>";
+  if (tab === "revoir") {
+    html += '<section class="card"><h2>Notions à revoir</h2>' + (open.length ? '<ul class="list">' + open.map(r => '<li class="item"><div class="t"><b>' + esc(r.topic) + '</b><span class="muted small">' + esc(r.note || "") + (r.sessionId ? " · " + esc((sessionById(r.sessionId) || { title: "" }).title) : "") + '</span></div><div class="row" style="flex:none">' + (r.sessionId ? '<button class="btn" data-open="' + r.sessionId + '">Revoir</button>' : "") + '<button class="btn" data-revdone="' + r.id + '">Revu</button></div></li>').join("") + "</ul>" : '<p class="muted">Rien à revoir pour l\'instant.</p>') + "</section>" +
+      '<section class="card"><h2>Signaler une difficulté</h2><form class="form" id="f-diff"><div class="field"><label for="d-t">Sur quoi bloques-tu ?</label><input type="text" id="d-t" required maxlength="140"></div><div class="field"><label for="d-n">Détail (facultatif)</label><input type="text" id="d-n" maxlength="240"></div><div><button class="btn primary" type="submit">Ajouter à ma liste</button></div></form></section>';
+    const done = S.reviews.filter(r => r.done);
+    if (done.length) html += '<section class="card flat"><h3>Déjà revus (' + done.length + ')</h3><ul class="list">' + done.map(r => '<li class="item"><span>' + esc(r.topic) + '</span><button class="btn ghost" data-revundo="' + r.id + '">Remettre</button></li>').join("") + "</ul></section>";
+  } else if (tab === "questions") {
+    const qs = []; allSessions().forEach(s => (s.questions || []).forEach(q => qs.push({ s, q })));
+    const fin = qs.filter(x => statusOf(x.s.id) === "termine" || statusOf(x.s.id) === "a_revoir");
+    const list = fin.length ? fin : qs.slice(0, 8);
+    html += '<section class="card"><h2>Questions de vérification</h2><p class="muted small">' + (fin.length ? "Questions des séances terminées ou à revoir." : "Tu n\'as encore terminé aucune séance : voici des questions d\'aperçu.") + "</p>" + list.map(x => '<details class="qa"><summary>' + esc(x.q.q) + '</summary><p>' + esc(x.q.a) + '</p><p class="small muted">Séance : ' + esc(x.s.title) + "</p></details>").join("") + "</section>";
+  } else {
+    const fin = allSessions().filter(s => statusOf(s.id) === "termine").sort((a, b) => (prog(b.id).finishedAt || "").localeCompare(prog(a.id).finishedAt || ""))[0];
+    html += '<section class="card"><h2>Reprise de 15 minutes</h2><p class="muted small">Après une pause, on reprend là où tu t\'es arrêté. Rien n\'est remis à zéro.</p>' +
+      '<ol><li><b>Relis (3 min)</b>' + (fin ? " : tes notes de « " + esc(fin.title) + " »." : " : le journal de ta dernière séance.") + "</li><li><b>Teste-toi (5 min)</b> : réponds aux questions ci-dessous sans regarder.</li><li><b>Refais en miniature (5 min)</b> : une étape de carte, un besoin ou une table de données.</li><li><b>Fixe la suite (2 min)</b> : note une action de 10 minutes.</li></ol>" +
+      (fin && prog(fin.id).notes ? '<h3>Mes dernières notes</h3><div class="promptbox">' + esc(prog(fin.id).notes) + "</div>" : "") +
+      (fin && fin.questions.length ? "<h3>Questions</h3>" + fin.questions.map(q => '<details class="qa"><summary>' + esc(q.q) + "</summary><p>" + esc(q.a) + "</p></details>").join("") : "") +
+      '<p class="muted small">Après 2 semaines d\'arrêt, reprends à la dernière semaine terminée. Après un mois, refais d\'abord le bilan du mois précédent.</p>' + (currentSession() ? '<div><button class="btn primary" data-open="' + currentSession().id + '">Ouvrir ma séance en cours</button></div>' : "") + "</section>";
+  }
+  return html;
+}
+
+/* --- Projet et portfolio --- */
+function viewProjet() {
+  const tab = viewOpts.projet.tab;
+  let html = '<div class="view-head"><h1>Projet fil rouge et portfolio</h1><p>Entreprise fictive de transport frigorifique : un outil de suivi des documents et des échéances de conducteurs.</p></div>' +
+    '<div class="tabs" role="tablist">' + [["etapes", "Étapes"], ["liv", "Livrables"], ["comp", "Compétences"]].map(([k, l]) => '<button class="tab" role="tab" aria-selected="' + (tab === k) + '" data-ptab="' + k + '">' + l + "</button>").join("") + "</div>";
+  if (tab === "etapes") {
+    html += PROGRAM.filRouge.map(f => { const m = moduleOf(f.m); return '<section class="card"><div class="row between"><h2>Mois ' + m.month + " · " + esc(f.t) + '</h2><span class="pill">' + esc(m.block) + "</span></div><p>" + esc(f.x) + '</p><p class="muted small">Livrables : ' + PROGRAM.deliverables.filter(d => d.m === f.m).map(d => esc(d.t)).join(" ; ") + "</p></section>"; }).join("");
+  } else if (tab === "liv") {
+    const nd = PROGRAM.deliverables.filter(d => (S.deliverables[d.id] || {}).status === "fait").length;
+    html += '<section class="card flat"><p>' + nd + " livrable" + (nd > 1 ? "s" : "") + " terminé" + (nd > 1 ? "s" : "") + " sur " + PROGRAM.deliverables.length + '. Tu fixes toi-même l\'état de chaque livrable.</p></section>' +
+      PROGRAM.deliverables.map(d => { const x = S.deliverables[d.id] || { status: "a_faire", link: "", desc: "", skills: [] }; return deliverableCard(d, x); }).join("") +
+      '<section class="card"><h2>Portfolio en texte</h2><p class="muted small">Copie la liste de tes livrables terminés.</p><div><button class="btn" data-act="copy-portfolio">Copier le portfolio</button></div></section>';
+  } else {
+    const blocks = Object.keys(PROGRAM.blocks);
+    html += '<section class="card flat"><p class="muted small">Évalue-toi honnêtement. « Faite seul » veut dire que tu l\'as refait sans aide. Rien ici n\'est calculé à ta place. Les 29 compétences viennent de la <a href="' + PROGRAM.referentiel.url + '" target="_blank" rel="noopener">fiche officielle</a> (reformulées).</p></section>' +
+      blocks.map(b => { const cs = PROGRAM.competences.filter(c => c.b === b); return '<section class="card"><h2>' + b + "</h2><p class=\"muted small\">" + esc(PROGRAM.blocks[b]) + '</p><ul class="list">' + cs.map(c => { const v = S.mastery[c.id] || ""; return '<li class="item" style="display:grid"><div class="t"><b>' + c.id + "</b><span>" + esc(c.t) + '</span></div><div class="mastery" role="group" aria-label="Niveau pour ' + c.id + '">' + Object.keys(MAITRISE).map(k => '<button data-mastery="' + c.id + ":" + k + '" aria-pressed="' + (v === k) + '">' + MAITRISE[k] + "</button>").join("") + "</div></li>"; }).join("") + "</ul></section>"; }).join("");
+  }
+  return html;
+}
+function deliverableCard(d, x) {
+  return '<section class="card"><div class="row between"><h3>' + esc(d.t) + '</h3><label class="sr" for="ds-' + d.id + '">État</label><select id="ds-' + d.id + '" data-dstatus="' + d.id + '" style="width:auto"><option value="a_faire"' + (x.status === "a_faire" ? " selected" : "") + '>À faire</option><option value="en_cours"' + (x.status === "en_cours" ? " selected" : "") + '>En cours</option><option value="fait"' + (x.status === "fait" ? " selected" : "") + ">Fait</option></select></div>" +
+    '<p class="muted small">' + esc(d.d) + " Mois " + moduleOf(d.m).month + ".</p>" +
+    '<div class="field"><label for="dl-' + d.id + '">Lien vers la réalisation</label><input type="url" id="dl-' + d.id + '" data-dlink="' + d.id + '" value="' + esc(x.link) + '" placeholder="https://"></div>' +
+    '<div class="field"><label for="dd-' + d.id + '">Ce que ce livrable démontre</label><input type="text" id="dd-' + d.id + '" data-ddesc="' + d.id + '" value="' + esc(x.desc) + '"></div>' +
+    '<p class="small muted">Compétences visées : ' + d.c.join(", ") + "</p></section>";
+}
+
+/* --- Suivi --- */
+function viewSuivi() {
+  const t = S.timer; const mk = mondayKey(); const wk = S.weekly[mk] || { learned: "", hard: "", next: "" };
+  const fin = allSessions().filter(s => statusOf(s.id) === "termine").sort((a, b) => (prog(b.id).finishedAt || "").localeCompare(prog(a.id).finishedAt || ""));
+  const log = S.timeLog.slice().sort((a, b) => b.date.localeCompare(a.date));
+  let html = '<div class="view-head"><h1>Suivi personnel</h1><p>Ton temps, ton historique et ta sauvegarde.</p></div>';
+  html += '<section class="card"><h2>Chronomètre (facultatif)</h2><div class="row between"><span class="timer" id="timer">' + (t ? clock(Date.now() - t.startedAt) : "00:00") + "</span>" +
+    (t ? '<button class="btn primary" data-act="timer-stop">Arrêter et enregistrer</button>' : '<button class="btn primary" data-act="timer-start">Démarrer</button>') + "</div>" +
+    '<form class="form" id="f-time"><h3>Ajouter du temps à la main</h3><div class="row"><div class="field" style="flex:1;min-width:130px"><label for="t-d">Date</label><input type="date" id="t-d" value="' + dayKey() + '"></div><div class="field" style="flex:1;min-width:100px"><label for="t-m">Minutes</label><input type="number" id="t-m" min="1" max="720" required></div></div>' +
+    '<div class="field"><label for="t-n">Note (facultatif)</label><input type="text" id="t-n" maxlength="140"></div><div><button class="btn" type="submit">Ajouter</button></div></form></section>';
+  html += '<section class="card"><h2>Bilan de la semaine</h2><p class="muted small">Cette semaine (depuis le lundi ' + fmtDate(mk) + ') : ' + fmtMin(minutesThisWeek()) + " sur " + fmtMin(S.settings.goalMin) + " visés.</p>" +
+    '<div class="field"><label for="w-a">Ce que j\'ai appris</label><textarea id="w-a" data-week="learned" style="min-height:70px">' + esc(wk.learned) + '</textarea></div><div class="field"><label for="w-b">Ce qui était difficile</label><textarea id="w-b" data-week="hard" style="min-height:70px">' + esc(wk.hard) + '</textarea></div><div class="field"><label for="w-c">Ma prochaine action</label><textarea id="w-c" data-week="next" style="min-height:70px">' + esc(wk.next) + "</textarea></div></section>";
+  html += '<section class="card"><h2>Historique</h2><h3>Séances terminées</h3>' + (fin.length ? '<ul class="list">' + fin.map(s => '<li class="item"><div class="t"><b>' + esc(s.title) + '</b><span class="muted small">' + fmtDate(prog(s.id).finishedAt) + "</span></div><button class=\"btn\" data-open=\"" + s.id + '">Ouvrir</button></li>').join("") + "</ul>" : '<p class="muted">Aucune séance terminée pour l\'instant.</p>') +
+    "<h3>Temps enregistré</h3>" + (log.length ? '<ul class="list">' + log.map(e => '<li class="item"><div class="t"><b>' + fmtMin(e.min) + '</b><span class="muted small">' + fmtDate(e.date + "T12:00:00") + (e.note ? " · " + esc(e.note) : "") + '</span></div><button class="btn ghost danger" data-dellog="' + e.id + '">Supprimer</button></li>').join("") + "</ul>" : '<p class="muted">Aucun temps enregistré.</p>') + "</section>";
+  html += '<section class="card"><h2>Sauvegarde</h2><p><b>Tes données sont enregistrées dans ce navigateur, sur cet appareil.</b> Elles ne se synchronisent pas entre Mac, iPhone et iPad. Un navigateur peut les effacer (données de site supprimées, espace faible, longue inactivité). Exporte régulièrement.</p>' +
+    '<p class="muted small">Dernier export : ' + (S.lastExport ? fmtDate(S.lastExport) : "jamais") + '. Évolution prévue : un compte personnel pour synchroniser les appareils (pas encore disponible).</p>' +
+    '<div class="row"><button class="btn primary" data-act="export">Exporter mes données</button><button class="btn" data-act="show-json">Afficher le texte JSON</button></div>' +
+    '<div id="export-area" hidden><div class="field"><label for="exp">Copie ce texte et garde-le dans une note ou un fichier .json</label><textarea id="exp" readonly style="min-height:120px;font-size:.8rem"></textarea></div><div><button class="btn" data-act="copy-json">Copier</button></div></div>' +
+    '<h3>Importer</h3><div class="field"><label for="imp-f">Depuis un fichier .json</label><input type="file" id="imp-f" accept=".json,application/json"></div><div class="field"><label for="imp-t">Ou colle le texte ici</label><textarea id="imp-t" style="min-height:90px"></textarea></div><div class="row"><button class="btn" data-act="import-text">Importer le texte</button></div><p class="muted small">Importer remplace les données actuelles. Une copie de sécurité est affichée avant.</p><div id="imp-msg" class="small" role="status"></div></section>';
+  html += '<section class="card"><h2>Réglages</h2><div class="row"><div class="field" style="flex:1;min-width:140px"><label for="s-th">Thème</label><select id="s-th"><option value="auto"' + (S.settings.theme === "auto" ? " selected" : "") + '>Automatique</option><option value="light"' + (S.settings.theme === "light" ? " selected" : "") + '>Clair</option><option value="dark"' + (S.settings.theme === "dark" ? " selected" : "") + '>Sombre</option></select></div>' +
+    '<div class="field" style="flex:1;min-width:140px"><label for="s-g">Objectif par semaine (min)</label><input type="number" id="s-g" min="30" max="2400" value="' + S.settings.goalMin + '"></div></div>' +
+    '<div id="reset-zone"><button class="btn danger" data-act="reset-ask">Effacer toutes mes données</button></div></section>';
+  return html;
+}
+function clock(ms) { const s = Math.floor(ms / 1000); const h = Math.floor(s / 3600), m = Math.floor(s % 3600 / 60), r = s % 60; return (h ? pad(h) + ":" : "") + pad(m) + ":" + pad(r); }
+
+/* ===== Actions ===== */
+function openSession(id) { route = { name: "seance", id }; const p = prog(id); if (p.status === "a_commencer") { p.status = "en_cours"; save(); } render(); window.scrollTo(0, 0); }
+function finishSession() {
+  const s = sessionById(route.id); const p = prog(s.id);
+  const und = document.querySelector('input[name="und"]:checked');
+  if (!und) { toast("Choisis comment s'est passée la compréhension."); return; }
+  p.understanding = +und.value; p.finishedAt = new Date().toISOString();
+  const m = parseInt($("#f-min").value, 10);
+  if (m > 0) S.timeLog.push({ id: uid(), date: dayKey(), min: m, sessionId: s.id, note: s.title });
+  if (p.understanding === 1) { p.status = "a_revoir"; addReview(s.title, "Compréhension à consolider", s.id); toast("Séance enregistrée et ajoutée à tes révisions."); }
+  else { p.status = "termine"; if (p.understanding === 2) addReview(s.title, "Compris en partie", s.id); toast("Séance terminée."); }
+  saveNow(); render(); window.scrollTo(0, 0);
+}
+function addReview(topic, note, sessionId) { if (!S.reviews.some(r => !r.done && r.sessionId === sessionId && r.topic === topic)) S.reviews.push({ id: uid(), topic, note, sessionId: sessionId || null, done: false, at: new Date().toISOString() }); }
+function exportData() {
+  S.lastExport = new Date().toISOString(); saveNow();
+  return JSON.stringify({ app: "formation-product-builder", exportedAt: S.lastExport, data: S }, null, 2);
+}
+function downloadJSON() {
+  const txt = exportData(); const name = "formation-sauvegarde-" + dayKey() + ".json";
+  try { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([txt], { type: "application/json" })); a.download = name; document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500); } catch (e) {}
+  const area = $("#export-area"); if (area) { area.hidden = false; $("#exp").value = txt; }
+  toast("Export prêt. Si aucun fichier n'apparaît, copie le texte affiché.");
+  const info = document.querySelector("#view .small.muted"); if (info) render_keep();
+}
+function render_keep() { /* garde l'affichage, met à jour la date d'export plus tard */ }
+function importJSON(text) {
+  const msg = $("#imp-msg"); let obj;
+  try { obj = JSON.parse(text); } catch (e) { msg.textContent = "Ce texte n'est pas un JSON valide. Rien n'a été modifié."; return; }
+  const d = obj && obj.data ? obj.data : obj;
+  if (!d || typeof d !== "object" || typeof d.progress !== "object" || !Array.isArray(d.timeLog)) { msg.textContent = "Ce fichier ne ressemble pas à une sauvegarde de cette application. Rien n'a été modifié."; return; }
+  const backup = JSON.stringify(S);
+  S = fillDefaults(d); saveNow();
+  msg.textContent = "Import réussi. " + Object.keys(S.progress).length + " séance(s) avec progression.";
+  window.__lastBackup = backup; render(); toast("Données importées.");
+}
+
+/* ===== Événements ===== */
+document.addEventListener("click", async (ev) => {
+  const t = ev.target.closest("button, a, summary"); if (!t) return;
+  if (t.dataset.go) { ev.preventDefault(); if (t.dataset.tab) viewOpts.projet.tab = t.dataset.tab; go(t.dataset.go); return; }
+  if (t.dataset.open) { openSession(t.dataset.open); return; }
+  if (t.dataset.rtab) { viewOpts.revisions.tab = t.dataset.rtab; render(); return; }
+  if (t.dataset.ptab) { viewOpts.projet.tab = t.dataset.ptab; render(); return; }
+  if (t.dataset.revdone) { const r = S.reviews.find(x => x.id === t.dataset.revdone); if (r) r.done = true; save(); render(); return; }
+  if (t.dataset.revundo) { const r = S.reviews.find(x => x.id === t.dataset.revundo); if (r) r.done = false; save(); render(); return; }
+  if (t.dataset.dellink != null && t.dataset.dellink !== "") { prog(route.id).links.splice(+t.dataset.dellink, 1); save(); render(); return; }
+  if (t.dataset.dellog) { S.timeLog = S.timeLog.filter(e => e.id !== t.dataset.dellog); save(); render(); return; }
+  if (t.dataset.mastery) { const [id, k] = t.dataset.mastery.split(":"); if (S.mastery[id] === k) delete S.mastery[id]; else S.mastery[id] = k; save(); render(); return; }
+  if (t.dataset.copy) { const el = document.getElementById(t.dataset.copy); try { await navigator.clipboard.writeText(el.textContent); toast("Copié."); } catch (e) { const r = document.createRange(); r.selectNodeContents(el); const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r); toast("Sélectionné : fais Copier avec ton clavier."); } return; }
+  const a = t.dataset.act; if (!a) return;
+  if (a === "finish") finishSession();
+  else if (a === "reopen") { const p = prog(route.id); p.status = "en_cours"; p.finishedAt = null; save(); render(); }
+  else if (a === "mark-review") { const s = sessionById(route.id); prog(s.id).status = "a_revoir"; addReview(s.title, "Marquée à revoir", s.id); save(); render(); }
+  else if (a === "reprise") { viewOpts.revisions.tab = "reprise"; go("revisions"); }
+  else if (a === "reset-plan") { S.plan = {}; save(); render(); toast("Planning d'origine rétabli."); }
+  else if (a === "del-custom") { S.custom = S.custom.filter(c => c.id !== route.id); delete S.progress[route.id]; delete S.plan[route.id]; save(); go("parcours"); }
+  else if (a === "timer-start") { S.timer = { startedAt: Date.now() }; saveNow(); render(); }
+  else if (a === "timer-stop") { const m = Math.max(1, Math.round((Date.now() - S.timer.startedAt) / 60000)); S.timeLog.push({ id: uid(), date: dayKey(), min: m, note: "Chronomètre" }); S.timer = null; saveNow(); render(); toast(fmtMin(m) + " enregistrées."); }
+  else if (a === "export" || a === "show-json") { if (a === "export") downloadJSON(); else { const ar = $("#export-area"); ar.hidden = false; $("#exp").value = exportData(); } }
+  else if (a === "copy-json") { try { await navigator.clipboard.writeText($("#exp").value); toast("Copié."); } catch (e) { $("#exp").select(); toast("Sélectionné : copie avec ton clavier."); } }
+  else if (a === "import-text") { const v = $("#imp-t").value.trim(); if (!v) { $("#imp-msg").textContent = "Colle d'abord le texte JSON."; return; } importJSON(v); }
+  else if (a === "copy-portfolio") {
+    const txt = PROGRAM.deliverables.filter(d => (S.deliverables[d.id] || {}).status === "fait").map(d => { const x = S.deliverables[d.id]; return "- " + d.t + (x.link ? " : " + x.link : "") + (x.desc ? "\n  " + x.desc : ""); }).join("\n") || "(aucun livrable terminé)";
+    try { await navigator.clipboard.writeText(txt); toast("Portfolio copié."); } catch (e) { toast("Copie impossible ici."); }
+  }
+  else if (a === "reset-ask") { $("#reset-zone").innerHTML = '<p><b>Effacer toutes tes données ?</b> Exporte d\'abord si tu veux les garder.</p><div class="row"><button class="btn danger" data-act="reset-yes">Oui, tout effacer</button><button class="btn" data-act="reset-no">Annuler</button></div>'; }
+  else if (a === "reset-no") render();
+  else if (a === "reset-yes") { S = freshState(); saveNow(); go("home"); toast("Données effacées."); }
+});
+document.addEventListener("change", (ev) => {
+  const t = ev.target;
+  if (t.dataset.task != null && t.dataset.task !== "") { const p = prog(route.id); p.tasks[t.dataset.task] = t.checked; if (p.status === "a_commencer") p.status = "en_cours"; save(); t.closest(".check").classList.toggle("done", t.checked); }
+  else if (t.dataset.move) { const w = +t.value; const s = PROGRAM.sessions.find(x => x.id === t.dataset.move); if (s && s.w === w) delete S.plan[s.id]; else S.plan[t.dataset.move] = w; save(); viewOpts.parcours.open = moduleOfWeek(w) && moduleOfWeek(w).id; render(); toast("Séance déplacée en semaine " + w + "."); }
+  else if (t.dataset.dstatus) { (S.deliverables[t.dataset.dstatus] = S.deliverables[t.dataset.dstatus] || { status: "a_faire", link: "", desc: "", skills: [] }).status = t.value; save(); }
+  else if (t.id === "s-th") { S.settings.theme = t.value; save(); applyTheme(); }
+  else if (t.id === "s-g") { S.settings.goalMin = Math.max(30, +t.value || 360); save(); }
+  else if (t.id === "imp-f" && t.files[0]) { const fr = new FileReader(); fr.onload = () => importJSON(String(fr.result)); fr.readAsText(t.files[0]); }
+});
+document.addEventListener("input", (ev) => {
+  const t = ev.target;
+  if (t.id === "notes") { prog(route.id).notes = t.value; if (statusOf(route.id) === "a_commencer") prog(route.id).status = "en_cours"; save(); }
+  else if (t.dataset.dlink) { (S.deliverables[t.dataset.dlink] = S.deliverables[t.dataset.dlink] || { status: "a_faire", link: "", desc: "", skills: [] }).link = t.value; save(); }
+  else if (t.dataset.ddesc) { (S.deliverables[t.dataset.ddesc] = S.deliverables[t.dataset.ddesc] || { status: "a_faire", link: "", desc: "", skills: [] }).desc = t.value; save(); }
+  else if (t.dataset.week) { const mk = mondayKey(); (S.weekly[mk] = S.weekly[mk] || { learned: "", hard: "", next: "" })[t.dataset.week] = t.value; save(); }
+});
+document.addEventListener("submit", (ev) => {
+  ev.preventDefault(); const f = ev.target.id;
+  if (f === "f-link") { const u = $("#l-u").value.trim(); if (!u) return; prog(route.id).links.push({ label: $("#l-l").value.trim(), url: u }); save(); render(); }
+  else if (f === "f-diff") { addReview($("#d-t").value.trim(), $("#d-n").value.trim(), null); save(); render(); toast("Ajouté à ta liste."); }
+  else if (f === "f-time") { const m = parseInt($("#t-m").value, 10); if (!(m > 0)) return; S.timeLog.push({ id: uid(), date: $("#t-d").value || dayKey(), min: m, note: $("#t-n").value.trim() }); save(); render(); toast("Temps ajouté."); }
+  else if (f === "f-custom") { const id = "x" + uid(); const w = +$("#cu-w").value; S.custom.push({ id, w, o: 50, title: $("#cu-t").value.trim(), min: +$("#cu-m").value || 60, goal: $("#cu-g").value.trim(), tasks: [], deliverable: "" }); viewOpts.parcours.open = moduleOfWeek(w).id; save(); render(); toast("Séance ajoutée en semaine " + w + "."); }
+});
+document.addEventListener("toggle", (ev) => { const d = ev.target; if (d.matches && d.matches("details.module")) { if (d.open) viewOpts.parcours.open = d.dataset.mod; } }, true);
+function afterRender() { if (S.timer && $("#timer")) tick(); }
+let tickT = null;
+function tick() { clearInterval(tickT); tickT = setInterval(() => { const el = $("#timer"); if (!el || !S.timer) { clearInterval(tickT); return; } el.textContent = clock(Date.now() - S.timer.startedAt); }, 1000); }
+
+/* ===== Démarrage ===== */
+document.getElementById("theme-btn").addEventListener("click", () => { const order = ["auto", "light", "dark"]; S.settings.theme = order[(order.indexOf(S.settings.theme) + 1) % 3]; save(); applyTheme(); toast("Thème : " + { auto: "automatique", light: "clair", dark: "sombre" }[S.settings.theme]); });
+try { if (navigator.storage && navigator.storage.persist) navigator.storage.persist(); } catch (e) {}
+render();
+
+</script>
+<script>if("serviceWorker" in navigator && location.protocol.startsWith("http")){addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));}</script>
+</body></html>
