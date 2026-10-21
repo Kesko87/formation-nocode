@@ -649,8 +649,8 @@ let S = Store.load() || freshState();
 function fillDefaults(s) { const f = freshState(); for (const k in f) if (s[k] === undefined) s[k] = f[k]; return s; }
 S = fillDefaults(S);
 let saveT = null;
-function save() { S.lastActive = new Date().toISOString(); clearTimeout(saveT); saveT = setTimeout(() => Store.save(S), 150); }
-function saveNow() { S.lastActive = new Date().toISOString(); Store.save(S); }
+function save() { S.lastActive = new Date().toISOString(); clearTimeout(saveT); saveT = setTimeout(() => { Store.save(S); if (typeof scheduleSync === "function") scheduleSync(); }, 150); }
+function saveNow() { S.lastActive = new Date().toISOString(); Store.save(S); if (typeof scheduleSync === "function") scheduleSync(); }
 window.addEventListener("pagehide", () => Store.save(S));
 
 /* ===== Utilitaires ===== */
@@ -897,6 +897,7 @@ function viewSuivi() {
     '<div class="field"><label for="w-a">Ce que j\'ai appris</label><textarea id="w-a" data-week="learned" style="min-height:70px">' + esc(wk.learned) + '</textarea></div><div class="field"><label for="w-b">Ce qui était difficile</label><textarea id="w-b" data-week="hard" style="min-height:70px">' + esc(wk.hard) + '</textarea></div><div class="field"><label for="w-c">Ma prochaine action</label><textarea id="w-c" data-week="next" style="min-height:70px">' + esc(wk.next) + "</textarea></div></section>";
   html += '<section class="card"><h2>Historique</h2><h3>Séances terminées</h3>' + (fin.length ? '<ul class="list">' + fin.map(s => '<li class="item"><div class="t"><b>' + esc(s.title) + '</b><span class="muted small">' + fmtDate(prog(s.id).finishedAt) + "</span></div><button class=\"btn\" data-open=\"" + s.id + '">Ouvrir</button></li>').join("") + "</ul>" : '<p class="muted">Aucune séance terminée pour l\'instant.</p>') +
     "<h3>Temps enregistré</h3>" + (log.length ? '<ul class="list">' + log.map(e => '<li class="item"><div class="t"><b>' + fmtMin(e.min) + '</b><span class="muted small">' + fmtDate(e.date + "T12:00:00") + (e.note ? " · " + esc(e.note) : "") + '</span></div><button class="btn ghost danger" data-dellog="' + e.id + '">Supprimer</button></li>').join("") + "</ul>" : '<p class="muted">Aucun temps enregistré.</p>') + "</section>";
+  html += syncCard();
   html += '<section class="card"><h2>Sauvegarde</h2><p><b>Tes données sont enregistrées dans ce navigateur, sur cet appareil.</b> Elles ne se synchronisent pas entre Mac, iPhone et iPad. Un navigateur peut les effacer (données de site supprimées, espace faible, longue inactivité). Exporte régulièrement.</p>' +
     '<p class="muted small">Dernier export : ' + (S.lastExport ? fmtDate(S.lastExport) : "jamais") + '. Évolution prévue : un compte personnel pour synchroniser les appareils (pas encore disponible).</p>' +
     '<div class="row"><button class="btn primary" data-act="export">Exporter mes données</button><button class="btn" data-act="show-json">Afficher le texte JSON</button></div>' +
@@ -943,7 +944,7 @@ function importJSON(text) {
   const backup = JSON.stringify(S);
   S = fillDefaults(d); saveNow();
   msg.textContent = "Import réussi. " + Object.keys(S.progress).length + " séance(s) avec progression.";
-  window.__lastBackup = backup; render(); toast("Données importées.");
+  window.__lastBackup = backup; try { localStorage.removeItem("pbn.syncbase.v1"); } catch (e) {} render(); toast("Données importées.");
 }
 
 /* ===== Événements ===== */
@@ -977,7 +978,7 @@ document.addEventListener("click", async (ev) => {
   }
   else if (a === "reset-ask") { $("#reset-zone").innerHTML = '<p><b>Effacer toutes tes données ?</b> Exporte d\'abord si tu veux les garder.</p><div class="row"><button class="btn danger" data-act="reset-yes">Oui, tout effacer</button><button class="btn" data-act="reset-no">Annuler</button></div>'; }
   else if (a === "reset-no") render();
-  else if (a === "reset-yes") { S = freshState(); saveNow(); go("home"); toast("Données effacées."); }
+  else if (a === "reset-yes") { try { localStorage.removeItem("pbn.syncbase.v1"); localStorage.removeItem("pbn.auth.v1"); } catch (e) {} S = freshState(); Store.save(S); go("home"); toast("Données effacées sur cet appareil. Les données en ligne ne sont pas touchées."); }
 });
 document.addEventListener("change", (ev) => {
   const t = ev.target;
@@ -1011,6 +1012,156 @@ function tick() { clearInterval(tickT); tickT = setInterval(() => { const el = $
 document.getElementById("theme-btn").addEventListener("click", () => { const order = ["auto", "light", "dark"]; S.settings.theme = order[(order.indexOf(S.settings.theme) + 1) % 3]; save(); applyTheme(); toast("Thème : " + { auto: "automatique", light: "clair", dark: "sombre" }[S.settings.theme]); });
 try { if (navigator.storage && navigator.storage.persist) navigator.storage.persist(); } catch (e) {}
 render();
+
+/* ===== Synchronisation entre appareils (Supabase) =====
+   Les clés ci-dessous sont publiques par conception : la sécurité vient des règles (RLS) côté base.
+   Ne mets jamais ici une clé « secret » ou « service_role ». */
+var SYNC_ON = /*SYNC_ON*/true/*END*/;
+var SB_URL = "https://touvpgjgqdogabrqmxqu.supabase.co";
+var SB_KEY = "sb_publishable_FCEg8gKpwqelQLxR4c3ufA_W_nYhnjP";
+var AUTH_KEY = "pbn.auth.v1", BASE_KEY = "pbn.syncbase.v1";
+var SYNC_FIELDS = ["progress", "plan", "custom", "timeLog", "reviews", "deliverables", "mastery", "weekly"];
+var ARRAY_FIELDS = ["custom", "timeLog", "reviews"];
+var syncState = { msg: "", busy: false, step: "email", email: "" };
+var syncT = null;
+
+function lsGet(k) { try { return JSON.parse(localStorage.getItem(k)); } catch (e) { return null; } }
+function lsSet(k, v) { try { if (v == null) localStorage.removeItem(k); else localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+function authGet() { return lsGet(AUTH_KEY); }
+function setSyncMsg(m) { syncState.msg = m; var el = document.getElementById("sync-msg"); if (el) el.textContent = m; }
+
+/* --- Fusion à trois voies : on compare local, distant et dernière version commune --- */
+function toMaps(src) {
+  var o = {};
+  SYNC_FIELDS.forEach(function (f) {
+    var v = (src && src[f]) || (ARRAY_FIELDS.indexOf(f) >= 0 ? [] : {});
+    if (Array.isArray(v)) { var m = {}; v.forEach(function (x) { m[x.id] = x; }); o[f] = m; } else o[f] = v;
+  });
+  return o;
+}
+function fromMaps(maps) {
+  var o = {};
+  SYNC_FIELDS.forEach(function (f) { o[f] = ARRAY_FIELDS.indexOf(f) >= 0 ? Object.keys(maps[f]).map(function (k) { return maps[f][k]; }) : maps[f]; });
+  return o;
+}
+function mergeMaps(l, r, b, preferLocal) {
+  var out = {}, keys = {};
+  [l, r, b].forEach(function (m) { Object.keys(m || {}).forEach(function (k) { keys[k] = 1; }); });
+  Object.keys(keys).forEach(function (k) {
+    var lv = l[k], rv = r[k], bv = (b || {})[k];
+    var ls = JSON.stringify(lv), rs = JSON.stringify(rv), bs = JSON.stringify(bv), pick;
+    if (ls === rs) pick = lv; else if (ls === bs) pick = rv; else if (rs === bs) pick = lv; else pick = preferLocal ? lv : rv;
+    if (pick !== undefined) out[k] = pick;
+  });
+  return out;
+}
+function mergeStates(local, remote, base, preferLocal) {
+  var L = toMaps(local), R = toMaps(remote), B = toMaps(base), out = {};
+  SYNC_FIELDS.forEach(function (f) { out[f] = mergeMaps(L[f], R[f], B[f], preferLocal); });
+  return fromMaps(out);
+}
+function canon(v) {
+  if (Array.isArray(v)) return "[" + v.map(canon).sort().join(",") + "]";
+  if (v && typeof v === "object") return "{" + Object.keys(v).sort().map(function (k) { return JSON.stringify(k) + ":" + canon(v[k]); }).join(",") + "}";
+  return JSON.stringify(v);
+}
+function snapshot() { var o = {}; SYNC_FIELDS.forEach(function (f) { o[f] = JSON.parse(JSON.stringify(S[f])); }); return o; }
+
+/* --- Appels réseau --- */
+function sbFetch(path, opts, token) {
+  opts = opts || {}; opts.headers = Object.assign({ apikey: SB_KEY, "Content-Type": "application/json" }, opts.headers || {});
+  if (token) opts.headers.Authorization = "Bearer " + token;
+  return fetch(SB_URL + path, opts);
+}
+async function validToken() {
+  var a = authGet(); if (!a) return null;
+  if (a.expires_at && Date.now() / 1000 < a.expires_at - 60) return a;
+  var r = await sbFetch("/auth/v1/token?grant_type=refresh_token", { method: "POST", body: JSON.stringify({ refresh_token: a.refresh_token }) });
+  if (!r.ok) { if (r.status === 400 || r.status === 401) { lsSet(AUTH_KEY, null); } throw new Error("Session expirée, reconnecte-toi."); }
+  var j = await r.json(); return saveSession(j);
+}
+function saveSession(j) {
+  var a = { access_token: j.access_token, refresh_token: j.refresh_token, expires_at: j.expires_at || Math.floor(Date.now() / 1000) + (j.expires_in || 3600), user: { id: j.user.id, email: j.user.email } };
+  lsSet(AUTH_KEY, a); return a;
+}
+
+async function sendCode() {
+  var email = (document.getElementById("sy-email").value || "").trim(); if (!email) { setSyncMsg("Saisis ton adresse e-mail."); return; }
+  setSyncMsg("Envoi du code…");
+  try {
+    var r = await sbFetch("/auth/v1/otp", { method: "POST", body: JSON.stringify({ email: email, create_user: true }) });
+    if (!r.ok) { var e = await r.json().catch(function () { return {}; }); setSyncMsg("Envoi impossible : " + (e.msg || e.message || e.error_description || r.status)); return; }
+    syncState.step = "code"; syncState.email = email; syncState.msg = "Code envoyé à " + email + ". Regarde aussi dans les courriers indésirables."; render();
+  } catch (e) { setSyncMsg("Pas de connexion. Réessaie quand tu as du réseau."); }
+}
+async function verifyCode() {
+  var code = (document.getElementById("sy-code").value || "").replace(/\s/g, ""); if (!code) { setSyncMsg("Saisis le code reçu par e-mail."); return; }
+  setSyncMsg("Vérification…");
+  try {
+    var r = await sbFetch("/auth/v1/verify", { method: "POST", body: JSON.stringify({ type: "email", email: syncState.email, token: code }) });
+    var j = await r.json().catch(function () { return {}; });
+    if (!r.ok || !j.access_token) { setSyncMsg("Code refusé ou expiré. Demande un nouveau code."); return; }
+    saveSession(j); syncState.step = "email"; syncState.msg = "Connecté. Première synchronisation…"; render();
+    await runSync(true);
+  } catch (e) { setSyncMsg("Pas de connexion. Réessaie quand tu as du réseau."); }
+}
+function signOut() { lsSet(AUTH_KEY, null); lsSet(BASE_KEY, null); syncState = { msg: "Déconnecté. Les données restent sur cet appareil.", busy: false, step: "email", email: "" }; render(); }
+
+async function runSync(manual) {
+  if (!SYNC_ON || syncState.busy) return; var a = authGet(); if (!a) return;
+  syncState.busy = true;
+  try {
+    a = await validToken(); if (!a) return;
+    var r = await sbFetch("/rest/v1/user_data?select=data,updated_at&user_id=eq." + a.user.id, { method: "GET" }, a.access_token);
+    if (!r.ok) throw new Error(r.status === 404 ? "La table n'existe pas encore (script SQL non exécuté)." : "Lecture refusée (" + r.status + ").");
+    var rows = await r.json(); var remote = rows[0] ? rows[0].data : null;
+    var remoteActive = remote && remote.lastActive ? remote.lastActive : "";
+    var base = lsGet(BASE_KEY);
+    var merged = mergeStates(snapshot(), remote || {}, base || {}, (S.lastActive || "") >= remoteActive);
+    var before = canon(snapshot()), after = canon(merged);
+    var changedLocal = before !== after;
+    if (changedLocal) { SYNC_FIELDS.forEach(function (f) { S[f] = merged[f]; }); Store.save(S); }
+    var payload = Object.assign({}, merged, { lastActive: S.lastActive || new Date().toISOString() });
+    var remoteCmp = remote ? canon(mergeStates(remote, {}, {}, true)) : null;
+    if (remoteCmp !== after) {
+      var w = await sbFetch("/rest/v1/user_data?on_conflict=user_id", { method: "POST", headers: { Prefer: "resolution=merge-duplicates,return=minimal" }, body: JSON.stringify({ user_id: a.user.id, data: payload, updated_at: new Date().toISOString() }) }, a.access_token);
+      if (!w.ok) throw new Error("Écriture refusée (" + w.status + ").");
+    }
+    lsSet(BASE_KEY, merged);
+    syncState.last = new Date().toISOString();
+    setSyncMsg("Synchronisé à " + new Date().toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" }) + ".");
+    if (changedLocal) { var ae = document.activeElement; if (!(ae && /INPUT|TEXTAREA|SELECT/.test(ae.tagName))) render(); }
+  } catch (e) {
+    setSyncMsg(e && e.message && !/fetch|network|Failed/i.test(e.message) ? e.message : "Pas de connexion : tes données restent sur cet appareil et seront synchronisées plus tard.");
+  } finally { syncState.busy = false; }
+}
+function scheduleSync() { if (!SYNC_ON || !authGet()) return; clearTimeout(syncT); syncT = setTimeout(function () { runSync(false); }, 3000); }
+
+function syncCard() {
+  if (!SYNC_ON) return '<section class="card"><h2>Synchronisation entre appareils</h2><p class="muted">Disponible dans la version installée (lien GitHub Pages), pas dans cet aperçu.</p></section>';
+  var a = authGet(), h = '<section class="card"><h2>Synchronisation entre appareils</h2>';
+  if (a) {
+    h += '<p>Connecté avec <b>' + esc(a.user.email) + '</b>. Ta progression, tes notes, tes liens et ton temps sont copiés en ligne et récupérés sur tes autres appareils. Le thème et le chronomètre restent propres à chaque appareil.</p>' +
+      '<div class="row"><button class="btn primary" data-act="sync-now">Synchroniser maintenant</button><button class="btn" data-act="sync-out">Se déconnecter</button></div>';
+  } else if (syncState.step === "code") {
+    h += '<p>Un code a été envoyé à <b>' + esc(syncState.email) + '</b>.</p><div class="field"><label for="sy-code">Code reçu par e-mail</label><input type="text" id="sy-code" inputmode="numeric" autocomplete="one-time-code"></div>' +
+      '<div class="row"><button class="btn primary" data-act="sync-verify">Valider le code</button><button class="btn" data-act="sync-back">Changer d\'adresse</button></div>';
+  } else {
+    h += '<p>Connecte-toi avec ton e-mail pour retrouver la même progression sur Mac, iPhone et iPad. Pas de mot de passe : tu reçois un code. Tes données sont alors stockées chez Supabase, liées à ton adresse. Tant que tu ne te connectes pas, rien ne quitte cet appareil.</p>' +
+      '<div class="field"><label for="sy-email">Adresse e-mail</label><input type="email" id="sy-email" autocomplete="email" inputmode="email" value="' + esc(syncState.email) + '"></div><div><button class="btn primary" data-act="sync-send">Recevoir un code</button></div>';
+  }
+  return h + '<p class="small muted" id="sync-msg" role="status">' + esc(syncState.msg) + '</p></section>';
+}
+
+/* --- Branchement --- */
+document.addEventListener("click", function (ev) {
+  var t = ev.target.closest("button"); if (!t || !t.dataset.act) return; var a = t.dataset.act;
+  if (a === "sync-send") sendCode(); else if (a === "sync-verify") verifyCode(); else if (a === "sync-now") { setSyncMsg("Synchronisation…"); runSync(true); }
+  else if (a === "sync-out") signOut(); else if (a === "sync-back") { syncState.step = "email"; syncState.msg = ""; render(); }
+});
+document.addEventListener("visibilitychange", function () { if (document.visibilityState === "visible") scheduleSync(); });
+window.addEventListener("online", scheduleSync);
+if (authGet()) setTimeout(function () { runSync(false); }, 800);
 
 </script>
 <script>if("serviceWorker" in navigator && location.protocol.startsWith("http")){addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));}</script>
